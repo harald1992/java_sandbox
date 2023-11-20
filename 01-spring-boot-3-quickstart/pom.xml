@@ -27,6 +27,21 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-autoconfigure</artifactId>
+			<version>3.1.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<version>3.1.5</version>
+
+			<!--			need to config to make this work;
+                                settings > build,execution, deployment > compiler > build project automatically
+                                settings > advanced settings >  allow auto-make to start even though application is running -->
+		</dependency>
 	</dependencies>
 
 	<build>
