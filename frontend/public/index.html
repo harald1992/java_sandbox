@@ -15,11 +15,12 @@
         const url = "http://localhost:8080/basic";
 
         // const username = "user";
-        const username = "root";
+        const username = "employee";
         const password = "root";
         // const password = "c6ead863-7a0b-4a5f-9112-bdf87a821997";
 
-        const basicAuth = btoa(`${username}:${password}`);
+        // const basicAuth = btoa(`${username}:${password}`);
+        const basicAuth = `${username}:${password}`;
         const headers = new Headers({
           "Content-Type": "application/json",
           Authorization: `Basic ${basicAuth}`,
