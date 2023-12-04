@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+  </head>
+  <body>
+    <button>CLICK ME</button>
+  </body>
+
+  <script>
+    window.onload = () => {
+      document.querySelector("button").addEventListener("click", (event) => {
+        // const url = "http://localhost:8080/api/employees"
+        const url = "http://localhost:8080/basic";
+
+        const username = "manager";
+        const password = "root";
+
+        const basicAuth = btoa(`${username}:${password}`);
+        const headers = new Headers({
+          "Content-Type": "application/json",
+          // Authorization: `Basic ${basicAuth}`,
+        });
+
+        const requestOptions = {
+          method: "GET",
+          headers: headers,
+          // credentials: "include", // If necessary for cross-origin requests with credentials
+          // mode: "no-cors", // no-cors, *cors, same-origin
+        };
+
+        fetch(url, requestOptions)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log(data);
+          })
+          .catch((error) => {
+            console.error(
+              "There was a problem with the fetch operation:",
+              error
+            );
+          });
+      });
+
+      document.querySelector("button").click();
+    };
+  </script>
+</html>
