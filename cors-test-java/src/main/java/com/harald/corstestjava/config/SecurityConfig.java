@@ -1,4 +1,4 @@
-package com.harald.corstestjava.controller.config;
+package com.harald.corstestjava.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
