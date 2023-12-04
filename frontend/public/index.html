@@ -14,19 +14,21 @@
         // const url = "http://localhost:8080/api/employees"
         const url = "http://localhost:8080/basic";
 
-        const username = "manager";
+        // const username = "user";
+        const username = "root";
         const password = "root";
+        // const password = "c6ead863-7a0b-4a5f-9112-bdf87a821997";
 
         const basicAuth = btoa(`${username}:${password}`);
         const headers = new Headers({
           "Content-Type": "application/json",
-          // Authorization: `Basic ${basicAuth}`,
+          Authorization: `Basic ${basicAuth}`,
         });
 
         const requestOptions = {
           method: "GET",
           headers: headers,
-          // credentials: "include", // If necessary for cross-origin requests with credentials
+          credentials: "include", // If necessary for cross-origin requests with credentials
           // mode: "no-cors", // no-cors, *cors, same-origin
         };
 
