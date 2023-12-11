@@ -16,6 +16,9 @@ public class BasicController {
 
     @GetMapping("/all")
     public ResponseEntity<BasicDto> returnResult() {
-        return ResponseEntity.ok(new BasicDto("Basic String!!!"));
+        BasicDto dto = new BasicDto();
+        dto.setMessage("BASIC STRING");
+        return ResponseEntity.ok(dto);
     }
+
 }
