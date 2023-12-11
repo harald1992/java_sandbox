@@ -1,4 +1,4 @@
-package com.harald.SpringSecurity.security;
+package com.harald.SpringSecurity.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,11 +18,10 @@ import java.util.Arrays;
 @Configuration
 public class SecurityConfig {
 
-
-    // users and roles
     @Bean
     public InMemoryUserDetailsManager userDetailsManager() {
-        UserDetails employee = User.builder().username("employee")
+        UserDetails employee = User.builder()
+                .username("employee")
                 .password("{noop}root")
                 .roles("EMPLOYEE")
                 .build();
@@ -48,31 +47,28 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((configurer ->
                 configurer
-                        .requestMatchers(HttpMethod.GET, "/api/employees").hasRole("EMPLOYEE")
-                        .requestMatchers(HttpMethod.GET, "/api/employees/**").hasRole("EMPLOYEE")
-                        .requestMatchers(HttpMethod.POST, "/api/employees").hasRole("MANAGER")
-                        .requestMatchers(HttpMethod.PUT, "/api/employees").hasRole("MANAGER")
-                        .requestMatchers(HttpMethod.DELETE, "/api/employees").hasRole("ADMIN")
-                        // .requestMatchers(HttpMethod.OPTIONS, "/api/employees").hasRole("EMPLOYEE")
+                        // .requestMatchers(HttpMethod.GET, "/api/employees").hasRole("EMPLOYEE")
+                        // .requestMatchers(HttpMethod.GET, "/api/employees/**").hasRole("EMPLOYEE")
+                        // .requestMatchers(HttpMethod.POST, "/api/employees").hasRole("MANAGER")
+                        // .requestMatchers(HttpMethod.PUT, "/api/employees").hasRole("MANAGER")
+                        // .requestMatchers(HttpMethod.DELETE, "/api/employees").hasRole("ADMIN")
+                        // .requestMatchers(HttpMethod.GET, "/basic/all").hasRole("EMPLOYEE")
+                        // .anyRequest().permitAll()
+
+                        // .requestMatchers(HttpMethod.GET, "/basic/all")
+                        // .hasRole("EMPLOYEE")
+                        // .requestMatchers("/error")
+                        // .permitAll()
+                        .anyRequest().permitAll()
+                // .requestMatchers(HttpMethod.OPTIONS, "/api/employees").hasRole("EMPLOYEE")
         ));
-        // use basic authentication
         http.httpBasic(Customizer.withDefaults());
         // http.cors(cors -> cors.disable());
+
         // disable anti CSRF, not needed for stateless REST API's that use POST, PUT, PATCH, DELETE
         http.csrf(csrf -> csrf.disable());
 
         return http.build();
     }
-
-    // @Bean
-    // CorsConfigurationSource corsConfigurationSource() {
-    //     CorsConfiguration configuration = new CorsConfiguration();
-    //     configuration.setAllowedOrigins(Arrays.asList("https://localhost:5050"));
-    //     configuration.setAllowedMethods(Arrays.asList("GET","POST"));
-    //     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    //     source.registerCorsConfiguration("/**", configuration);
-    //     return source;
-    // }
-
 
 }

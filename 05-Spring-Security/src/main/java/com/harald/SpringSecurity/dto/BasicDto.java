@@ -1,10 +1,10 @@
-package com.harald.corstestjava.dto;
+package com.harald.SpringSecurity.dto;
 
 import org.springframework.stereotype.Component;
 
 @Component
 public class BasicDto {
-private String message;
+    private String message;
 
 
     public String getMessage() {
