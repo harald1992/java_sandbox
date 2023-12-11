@@ -6,6 +6,7 @@
   </head>
   <body>
     <button>CLICK ME</button>
+    <p id="content"></p>
   </body>
 
   <script>
@@ -29,7 +30,7 @@
         const requestOptions = {
           method: "GET",
           headers: headers,
-          credentials: "include", // If necessary for cross-origin requests with credentials
+          // credentials: "include", // If necessary for cross-origin requests with credentials
           // mode: "no-cors", // no-cors, *cors, same-origin
         };
 
@@ -42,6 +43,7 @@
           })
           .then((data) => {
             console.log(data);
+            document.querySelector("#content").innerHTML = JSON.stringify(data);
           })
           .catch((error) => {
             console.error(
