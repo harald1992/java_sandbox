@@ -77,7 +77,16 @@
       const employeeUrl = "http://localhost:8080/api/employees";
       const basicAuth = btoa("employee:root");
 
-      fetch(employeeUrl, { method: "GET", Authorization: `Basic ${basicAuth}` })
+      const requestOptions = {
+        method: "GET",
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: `Basic ${basicAuth}`,
+          "X-Requested-With": "XMLHttpRequest",
+        }),
+      };
+
+      fetch(employeeUrl, requestOptions)
         .then((data) => data.json())
         .then((data) => {
           console.log(data);

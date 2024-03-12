@@ -47,7 +47,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((configurer ->
                 configurer
-                        // .requestMatchers(HttpMethod.GET, "/api/employees").hasRole("EMPLOYEE")
+                        .requestMatchers(HttpMethod.GET, "/api/employees").hasRole("EMPLOYEE")
                         // .requestMatchers(HttpMethod.GET, "/api/employees/**").hasRole("EMPLOYEE")
                         // .requestMatchers(HttpMethod.POST, "/api/employees").hasRole("MANAGER")
                         // .requestMatchers(HttpMethod.PUT, "/api/employees").hasRole("MANAGER")
@@ -55,11 +55,10 @@ public class SecurityConfig {
                         // .requestMatchers(HttpMethod.GET, "/basic/all").hasRole("EMPLOYEE")
                         // .anyRequest().permitAll()
 
-                        // .requestMatchers(HttpMethod.GET, "/basic/all")
-                        // .hasRole("EMPLOYEE")
+                        .requestMatchers(HttpMethod.GET, "/basic/all").hasRole("EMPLOYEE")
                         // .requestMatchers("/error")
                         // .permitAll()
-                        .anyRequest().permitAll()
+                        // .anyRequest().permitAll()
                 // .requestMatchers(HttpMethod.OPTIONS, "/api/employees").hasRole("EMPLOYEE")
         ));
         http.httpBasic(Customizer.withDefaults());
