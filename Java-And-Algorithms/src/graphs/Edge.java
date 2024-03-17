@@ -1,3 +1,5 @@
+package graphs;
+
 public class Edge {
 
     private Vertex start;

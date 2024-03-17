@@ -1,3 +1,5 @@
+package graphs;
+
 import java.util.ArrayList;
 
 public class Graph {
@@ -13,9 +15,9 @@ public class Graph {
         this.isDirected = isDirected;
 
         vertices = new ArrayList<>();
-        // Vertex amsterdam = addVertex("Amsterdam");
-        // Vertex utrecht = addVertex("Utrecht");
-        // Vertex groningen = addVertex("Groningen");
+        // Graphs.Vertex amsterdam = addVertex("Amsterdam");
+        // Graphs.Vertex utrecht = addVertex("Utrecht");
+        // Graphs.Vertex groningen = addVertex("Groningen");
         //
         // addEdge(amsterdam, utrecht, 250);
         // addEdge(utrecht, groningen, 500);
@@ -75,7 +77,7 @@ public class Graph {
 
 }
 
-// A Graph lists all vertices
+// A Graphs.Graph lists all vertices
 
 // directed graphs: Peter only likes Cody, cody only likes Jordan etc
 

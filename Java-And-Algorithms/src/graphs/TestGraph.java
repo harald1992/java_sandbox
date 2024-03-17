@@ -1,4 +1,6 @@
-class TestGraph {
+package graphs;
+
+public class TestGraph {
     private Graph testGraph;
 
     public TestGraph() {
