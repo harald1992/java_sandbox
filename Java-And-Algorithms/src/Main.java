@@ -1,7 +1,9 @@
-import static optionals.OptionalsMain.optionalsStart;
-import static records.RecordsMain.recordsStart;
-import static reflection.ReflectionMain.reflectionStart;
-import static streams.StreamsMain.startStreams;
+import static abstractClasses.AbstractClassesMain.abstractClassesStart;
+import static annotations.AnnotationsMain.annotationsStart;
+import static anonymousAndInnerClasses.AnonymousAndInnerclassesMain.anonymousAndInnerclassesStart;
+import static fileio.FileIOMain.fileIOStart;
+import static generics.GenericsMain.genericsStart;
+import static mapsAndSets.MapsAndSetsMain.mapsAndSetsStart;
 
 public class Main {
 
@@ -11,11 +13,21 @@ public class Main {
         // optionalsStart();
         // recordsStart();
 
-        try {
-            reflectionStart();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // try {
+        //     reflectionStart();
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
+
+        // multiThreadingStart();
+
+        // exceptionsStart();
+        fileIOStart();
+        // abstractClassesStart();
+        // anonymousAndInnerclassesStart();
+        // genericsStart();
+        // mapsAndSetsStart();
+        // annotationsStart();
     }
 
 
