@@ -1,0 +1,18 @@
+#spring:
+#  datasource:
+#    url: jdbc:h2:mem:testdb
+#    driverClassName: org.h2.Driver
+#    username: sa
+##    password: password
+#  jpa:
+#    database-platform: org.hibernate.dialect.H2Dialect
+#  h2:
+#    console:
+#      path: /h2-console
+#      enabled: true
+
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/spring_reactive
+    username: postgres
+    password: root
