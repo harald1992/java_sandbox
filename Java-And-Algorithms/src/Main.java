@@ -4,6 +4,7 @@ import static anonymousAndInnerClasses.AnonymousAndInnerclassesMain.anonymousAnd
 import static fileio.FileIOMain.fileIOStart;
 import static generics.GenericsMain.genericsStart;
 import static mapsAndSets.MapsAndSetsMain.mapsAndSetsStart;
+import static userInput.UserInputMain.userInputStart;
 
 public class Main {
 
@@ -22,12 +23,14 @@ public class Main {
         // multiThreadingStart();
 
         // exceptionsStart();
-        fileIOStart();
+        // fileIOStart();
         // abstractClassesStart();
         // anonymousAndInnerclassesStart();
         // genericsStart();
         // mapsAndSetsStart();
         // annotationsStart();
+
+        userInputStart();
     }
 
 
