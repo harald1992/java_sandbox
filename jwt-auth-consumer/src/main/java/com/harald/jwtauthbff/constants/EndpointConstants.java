@@ -1,4 +1,4 @@
-package com.harald.jwtauthconsumer.constants;
+package com.harald.jwtauthbff.constants;
 
 public class EndpointConstants {
 

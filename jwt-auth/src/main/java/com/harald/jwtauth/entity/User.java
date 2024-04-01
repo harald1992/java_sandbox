@@ -2,10 +2,9 @@ package com.harald.jwtauth.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
 
 @Entity
-@Table(name="user")
+@Table(name="my_users")
 @Data
 public class User {
 

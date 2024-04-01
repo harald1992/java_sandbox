@@ -1,4 +1,4 @@
-package com.harald.jwtauthconsumer.dto;
+package com.harald.jwtauthbff.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

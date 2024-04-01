@@ -1,0 +1,1 @@
+INSERT INTO my_users(username, password) VALUES('postgres', 'root');

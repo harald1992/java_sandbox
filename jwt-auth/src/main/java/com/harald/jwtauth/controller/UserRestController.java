@@ -4,9 +4,7 @@ import com.harald.jwtauth.constants.EndpointConstants;
 import com.harald.jwtauth.dto.UserDto;
 import com.harald.jwtauth.service.UserService;
 import jakarta.annotation.PostConstruct;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,14 +21,18 @@ public class UserRestController {
 
     @PostConstruct
     private void setDatabase() {
-        userService.deleteAll();
-        userService.addUser(new UserDto("Bert", "Wachtwoord1234"));
+        // userService.deleteAll();
+        // userService.addUser(new UserDto("Bert", "Wachtwoord1234"));
     }
 
     @GetMapping()
     public List<UserDto> getAllUsers() {
        return userService.getUserList();
+    }
 
+    @PostMapping()
+    public Boolean login(@RequestBody UserDto userDto) {
+        return true;
     }
 
 }
