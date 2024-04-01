@@ -1,10 +1,4 @@
-import static abstractClasses.AbstractClassesMain.abstractClassesStart;
-import static annotations.AnnotationsMain.annotationsStart;
-import static anonymousAndInnerClasses.AnonymousAndInnerclassesMain.anonymousAndInnerclassesStart;
-import static fileio.FileIOMain.fileIOStart;
-import static generics.GenericsMain.genericsStart;
-import static mapsAndSets.MapsAndSetsMain.mapsAndSetsStart;
-import static userInput.UserInputMain.userInputStart;
+import static csvAndSQL.CsvOpener.csvOpenerStart;
 
 public class Main {
 
@@ -30,8 +24,12 @@ public class Main {
         // mapsAndSetsStart();
         // annotationsStart();
 
-        userInputStart();
+        // userInputStart();
+        csvOpenerStart();
+
     }
+
+
 
 
 }

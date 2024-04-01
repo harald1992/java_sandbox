@@ -1,0 +1,142 @@
+# sqlite3 should be installed by default in macos with developer tools.
+# SQLite3 contains all the basics of SQL, other features are vendor specific, so this is the essense of SQL.
+# Database is actually snake_case, and SQL commands UPPERCASE, so that makes SQL statements readable.
+# Every thing should have it's own schema, so movies are one table, actors another table etc. and they are linked together, hence relational.
+# All . commands like .schema are sqlite specific, postgres etc will have their own commands for that.
+# .timer ON -> turns on timer to check query speed.
+
+ # create db if empty, or open db.
+sqlite3 workers.db
+
+.mode csv
+
+#update db based on csv file
+.import workers.csv workers
+.quit
+
+
+# Open db for operations:
+sqlite3 workers.db
+
+# See schema used to create the table, with the headers of the table
+.schema
+
+...> means you have to finish it with semicolon;
+
+
+# SOME COMMANDS:
+SELECT * FROM workers;
+SELECT name FROM workers LIMIT 5;
+
+# CALCULATING KEYWORDS:
+# AVG, COUNT, DISTINCT, LOWER, MAX, MIN, UPPER
+SELECT COUNT(*) FROM workers;
+SELECT MAX(age) FROM workers;
+SELECT DISTINCT(profession) FROM workers;
+SELECT COUNT(DISTINCT(profession)) FROM workers;
+
+# SELECTION KEYWORDS:
+# WHERE, LIKE, ORDER BY, LIMIT, GROUP BY
+SELECT COUNT(*) FROM workers WHERE profession = 'teacher';
+SELECT * FROM workers WHERE age = '28' AND name LIKE '%n%';
+SELECT age, COUNT(*) FROM workers GROUP BY age ORDER BY COUNT(*) DESC;
+
+# ALIASES
+SELECT name as n FROM workers ORDER BY n;
+
+
+# CHANGE DATA:
+INSERT INTO workers (name, age, profession) VALUES('LALA', 12, 'UNEMPLOYED');
+DELETE FROM workers; // delete whole schema, don't do!
+DELETE FROM workers WHERE name = 'LALA';
+UPDATE workers SET age
+
+# ALTER TABLE HEADER NAME:
+ALTER TABLE workers RENAME COLUMN Age TO age;
+
+# ONE TO ONE RELATIONSHIP:
+Standard relationship between shows and ratings: Every show has 1 rating. So every row in the shows table has a corresponding row in the ratings table\
+
+# TYPES:
+BLOB (Binary Large Object), INTEGER, NUMERIC (Dates and times), REAL (Float), TEXT, CHAR (Fixed length string), VARCHAR (variable length String).
+
+# DB OPTIONS:
+NOT NULL, UNIQUE (Avoid duplicates),
+
+# KEYS:
+PRIMARY KEY: So the id for the show in the show table
+FOREIGN KEY: The id of something when it is used/refered to in another table.
+FOREIGN KEY(show_id) REFERENCES shows(id)
+
+# CONDITIONS:
+SELECT * FROM ratings WHERE rating >= 6.0 LIMIT 20;
+SELECT title FROM shows WHERE id = 65293;
+
+# NESTED QUERIES FROM DIFFERENT TABLE SCHEMAS:
+SELECT * FROM shows WHERE id IN (SELECT show_id FROM ratings WHERE rating >= 6); -> Select all shows where the ratings where >=6
+SELECT title FROM shows WHERE id IN (SELECT show_id FROM genres WHERE genre = 'Comedy' LIMIT 10);
+
+# JOIN TABLES (i.e. add the rating value to the shows result table. Creates temporary table (i.e. called Result set).
+    # Works immediately with one to one relationships,  with one to many relationships it will automatically fill the gaps (show is one row, but if it has 3 genres it has 3 rows in genres table).
+SELECT * FROM shows JOIN ratings ON shows.id = ratings.show_id;
+SELECT title, rating FROM shows JOIN ratings ON shows.id = ratings.show_id LIMIT 10;
+
+# ONE TO MANY (One show can have several genres, where each genre has a different id):
+show_id | genre
+1500 | COMEDY
+1500 | FANTASY
+1500 | SCI-FI
+
+# MANY TO MANY (TV show can have many actors in it, but actors can also be in more TV shows).
+SELECT name FROM people WHERE id IN (SELECT person_id FROM stars WHERE show_id = (SELECT id FROM shows WHERE title = 'The Office' AND year = 2005));
+
+Get show names where Steve Carell played in:
+-> SELECT * FROM shows WHERE id IN (SELECT show_id FROM stars WHERE person_id = (SELECT id FROM people WHERE name='Steve Carell'));
+
+# INDEXES: If you know the application searches certain things often you can very quickly speed things up by indexing them. This way you don't have to do linear search anymore
+CREATE INDEX title_index ON shows (title);
+Index creates a b-tree
+Whenever you have primary key in a database, it creates an index for free. Foreign keys are not indexed by default.
+If you index everything you would use a lot of memory space. And every update you will have to re-index everything.
+
+# RACE CONDITIONS:
+Can happen with many users/servers for example incrementing a value. Reading the value and in the meantime it is updated, then value +1 is incorrect.
+Solutions:
+    Transaction -> Commit : Get value, update value in database should all happen without interuption sequential.
+
+# SQL INJECTION
+Voeg bijv '--' to in username, dan kan de ' een query afmaken en -- betekent ignore de rest. Dan zou het alleen username checken.
+use ? placeholders zodat de values later pas toegevoegd worden of escaped worden.
+
+
+
+
+
+PRACTICE:
+
+Zoek title van shows waar rowin atkinson gespeeld heeft:
+1   Select * FROM shows WHERE id IN
+2   (Select show_id FROM stars WHERE person_id =
+3   (Select id FROM people WHERE name = 'Rowan Atkinson' ))
+
+BY SUBQUERIES:
+ SELECT * FROM shows WHERE id IN
+     (SELECT show_id FROM stars WHERE person_id IN
+        (SELECT id FROM people WHERE name= 'Rowan Atkinson'));
+
+BY JOINING:
+    SELECT * FROM shows
+        JOIN stars ON shows.id = stars.show_id
+             JOIN people ON stars.person_id = people.id
+
+SELECT * FROM shows JOIN stars ON shows.id = stars.show_id JOIN people ON stars.person_id = people.id LIMIT 10 WHERE people.name = 'Rowan Atkinson';
+
+BY WHERE AND STATEMENTS:
+SELECT * FROM shows, stars, people
+    WHERE shows.id = stars.show_id
+        AND people.id = stars.person_id
+            AND name = 'Rowan Atkinson';
+      NO INDEX ->  1,211 seconds
+       CREATE iNDEX name_index ON people(name); ->       indexing person.name 1.167 seconds
+  CREATE iNDEX stars_index ON stars(person_id);   ->       indexing person_id in stars: 0.002 seconds
+ CREATE iNDEX stars_shows ON stars(show_id);    -> indexing show_id in stars: 0.002 seconds
