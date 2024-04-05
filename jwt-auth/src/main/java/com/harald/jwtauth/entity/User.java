@@ -1,22 +1,36 @@
 package com.harald.jwtauth.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name="my_users")
+@Table(name = "users")
+// automatically adds quotes via application.properties because users is normally a default user db ->  globally_quoted_identifiers: true
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
-    private int id;
+    protected long id;
 
-    @Column(name="username")
-    private String username;
+    protected String username;
 
-    @Column(name="password")
-    private String password;
+    protected String password;
+
+    protected boolean enabled;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private List<UserRole> roles = new ArrayList<>();
 
 }

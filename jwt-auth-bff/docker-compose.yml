@@ -1,0 +1,11 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres # from docker-hub
+    restart: always
+    ports:
+      - "5432:5432" # now the same as the one installed on the macbook, so can be seen in pgAdmin4 in database called 'postgres'
+    environment:
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: root
