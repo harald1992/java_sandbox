@@ -44,6 +44,9 @@ public class JwtService {
      */
     public <T> T extractClaim(String jwt, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(jwt);
+
+        claims.forEach((claimName, claimValue) -> System.out.println("Claim Name: " + claimName + ", Claim Value: " + claimValue));
+
         return claimsResolver.apply(claims);
     }
 

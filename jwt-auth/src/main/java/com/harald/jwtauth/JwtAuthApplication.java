@@ -1,12 +1,11 @@
 package com.harald.jwtauth;
 
-import com.harald.jwtauth.entity.User;
-import com.harald.jwtauth.repository.UserRepository;
+import com.harald.jwtauth.service.UserService;
+import com.harald.jwtshared.dto.AuthRequestDto;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 public class JwtAuthApplication {
@@ -16,17 +15,8 @@ public class JwtAuthApplication {
     }
 
     @Bean
-    CommandLineRunner commandLineRunner(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        // String password = passwordEncoder.encode("root");
-        String password = "root";
-
-        User user = User
-                .builder()
-                .username("postgres")
-                .password(password)
-                .enabled(true)
-                .build();
-        return args -> userRepository.save(user);
+    CommandLineRunner commandLineRunner(UserService userService) {
+        return args -> userService.registerUser(new AuthRequestDto("postgres", "root"));
     }
 
 }

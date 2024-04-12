@@ -1,8 +1,8 @@
 package com.harald.jwtauth.error;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -25,6 +25,34 @@ import static com.harald.jwtauth.constants.ErrorMessages.DEFAULT_ERROR;
 @ControllerAdvice
 @Slf4j
 public class GlobalRestExceptionHandler extends ResponseEntityExceptionHandler {
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            @NotNull MethodArgumentNotValidException ex,
+            @NotNull HttpHeaders headers,
+            @NotNull HttpStatusCode status,
+            @NotNull WebRequest request) {
+        log.error(ex.getMessage(), ex);
+
+        List<String> errors = new ArrayList<>();
+        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
+            errors.add(error.getDefaultMessage());
+        }
+        for (ObjectError error : ex.getBindingResult().getGlobalErrors()) {
+            log.error("Error in the whole dto: " + error.getObjectName() + ": " + error.getDefaultMessage());
+        }
+
+        ApiError apiError =
+                new ApiError(errors);
+        return handleExceptionInternal(
+                ex, apiError, headers, HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler({ApiException.class})
+    public ResponseEntity<ApiError> handleException(@NonNull final ApiException ex) {
+        log.error(ex.getMessage(), ex);
+        return new ResponseEntity<>(new ApiError(ex), ex.getHttpStatus());
+    }
 
     @ExceptionHandler({AuthenticationException.class})
     public ResponseEntity<ApiError> handleAuthenticationError(@NonNull final AuthenticationException ae) {

@@ -1,10 +1,9 @@
 package com.harald.jwtauth.filter;
 
 import com.harald.jwtauth.service.JwtService;
-import com.harald.jwtauth.service.UserService;
+import com.harald.jwtauth.service.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,7 @@ Intercept incoming HTTP requests, extra jwt token fomr the cookies, and authenti
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    private final UserService userService;
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
 
     private final JwtService jwtService;
 
@@ -34,6 +33,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String jwt = getJWTFromRequest(request);
+        System.out.println("JWT received: " + jwt);
         String username = null;
 
         if (jwt == null) {
@@ -42,11 +42,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         username = jwtService.extractUsername(jwt);
+        System.out.println("JWT username: " + username);
 
         if (username != null) {
-            UserDetails userDetails = userService.loadUserByUsername(username);
-            System.out.println("user details:enabled" + userDetails.isEnabled());
-            System.out.println("user details to string: " + userDetails.toString());
+            UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(username);
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authToken);

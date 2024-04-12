@@ -1,4 +1,4 @@
-package com.harald.jwtauth.dto;
+package com.harald.jwtshared.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AuthRequestDto {
+public class AuthResponseDto {
 
-    private String username;
+    private String accessToken;
 
-    private String password;
+    private String token;
 
 }
-

@@ -21,7 +21,12 @@ public class SecurityConfig {
                 //
            http.authorizeHttpRequests((configurer) -> configurer
                         // .requestMatchers(API_AUTH_URL + "/**").permitAll() // only permit the auth endpoints without authentication
-                        .anyRequest().permitAll());   // for all other requests the user needs to be authenticated.
+                        .anyRequest().permitAll())   // for all other requests the user needs to be authenticated.
+
+        // .formLogin(form -> form.defaultSuccessUrl("/admin")
+        //         .loginPage("/login")
+        //            .failureUrl("/login"));
+
                 // )
                 // .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // .authenticationProvider(authenticationProvider)

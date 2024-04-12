@@ -1,5 +1,6 @@
 app:
   cookie_expiration_ms: 3600000 # 60 min
+#  Filterchainproxy debug spring app properties
 
 
 server:
@@ -19,12 +20,14 @@ server:
 
 
 spring:
-#  sql:
-#    init:
-#  #        mode: always  # use schema.sql and data.sql on init. Turn off since it runs them already using databaseInitializer
+  mvc:
+    log-request-details: true
+  sql:
+    init:
+      mode: always  # use schema.sql and data.sql on init. Turn off since it runs them already using databaseInitializer
   jpa:
     hibernate:
-      ddl-auto: create-drop
+#      ddl-auto: create-drop
     properties:
       hibernate:
         globally_quoted_identifiers: true
@@ -36,9 +39,14 @@ spring:
     username: postgres
     password: root
 
+
 logging:
   level:
+    org.springframework.security.web.FilterChainProxy: DEBUG
     org:
       springframework:
         web: DEBUG
         security: DEBUG
+
+
+

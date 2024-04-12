@@ -11,7 +11,7 @@ import static com.harald.jwtauth.constants.ErrorMessages.DEFAULT_ERROR;
 
 @Getter
 @Slf4j
-public class ApiError {
+public class ApiError{
 
     private final Instant timestamp = Instant.now();
 

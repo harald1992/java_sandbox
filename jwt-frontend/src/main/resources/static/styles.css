@@ -1,0 +1,67 @@
+html, body {
+    margin: 0;
+}
+
+body {
+    background-color: whitesmoke;
+}
+
+.page-wrap {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+.page-wrap > main {
+    flex: 1 0 auto;
+}
+
+.header, .main, .footer {
+    padding: 8px 24px;
+}
+
+.header, .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 3px 3px 3px lightgrey;
+}
+
+.d-flex {
+    display: flex;
+}
+
+button {
+    /* Reset default styles */
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    /* Additional styles to remove default button behavior */
+    appearance: none; /* Removes platform-specific styling (e.g., macOS) */
+    -webkit-appearance: none; /* For older versions of WebKit-based browsers */
+    text-decoration: none; /* Remove underline */
+}
+
+a, button {
+    padding: 8px 16px;
+    background-color: skyblue;
+    text-decoration: none;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+a:hover, button:hover {
+    background-color: whitesmoke;
+}

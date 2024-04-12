@@ -1,7 +1,7 @@
 package com.harald.jwtauth.configuration;
 
 import com.harald.jwtauth.filter.JwtAuthFilter;
-import com.harald.jwtauth.service.UserService;
+import com.harald.jwtauth.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,12 +11,17 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.*;
+import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.harald.jwtauth.constants.EndpointConstants.API_AUTH_URL;
 
@@ -26,18 +31,35 @@ public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
 
-    private final UserService userService;
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
+
+    // for custom encoders or several encoders
+    public static PasswordEncoder createDelegatingPasswordEncoder() {
+        String encodingId = "myCustomEncoder";
+        Map<String, PasswordEncoder> encoders = new HashMap<>();
+        encoders.put("noop", NoOpPasswordEncoder.getInstance());
+        encoders.put("scrypt", new SCryptPasswordEncoder(65536, 8, 1, 32, 16));
+        encoders.put("pbkdf2", new Pbkdf2PasswordEncoder("lala", 16, 5, Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA256));
+        encoders.put("standard", new StandardPasswordEncoder());
+        encoders.put("bcrypt", new BCryptPasswordEncoder());
+        encoders.put("myCustomEncoder", new CustomPasswordEncoder());
+        System.out.println("delegating password encoder: " + encodingId);
+        return new DelegatingPasswordEncoder(encodingId, encoders);
+    }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         // return new BCryptPasswordEncoder();
-        return NoOpPasswordEncoder.getInstance();
+        // return NoOpPasswordEncoder.getInstance();
+        return createDelegatingPasswordEncoder(); // since spring security 5
     }
+
 
     @Bean
     public AuthenticationProvider authenticationProvider() {    // DAO (Data access object) to fetch user details and encode passwords
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userService);
+        authenticationProvider.setUserDetailsService(userDetailsServiceImpl);
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
     }
@@ -53,6 +75,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(configurer ->
                         configurer
                                 .requestMatchers(API_AUTH_URL + "/**").permitAll()
+                                // .anyRequest().hasRole("ADMIN")   // TODO: ADD ROLES
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

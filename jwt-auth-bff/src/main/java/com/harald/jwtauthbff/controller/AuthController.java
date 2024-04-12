@@ -1,7 +1,7 @@
 package com.harald.jwtauthbff.controller;
 
-import com.harald.jwtauthbff.dto.LoginRequestDto;
-import com.harald.jwtauthbff.dto.AuthResponseDto;
+import com.harald.jwtshared.dto.AuthRequestDto;
+import com.harald.jwtshared.dto.AuthResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import static com.harald.jwtauthbff.constants.EndpointConstants.API_AUTH_URL;
@@ -30,7 +29,7 @@ public class AuthController {
     private int COOKIE_EXPIRATION_MS;
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody LoginRequestDto loginRequestDto) {
+    public ResponseEntity<String> login(@RequestBody AuthRequestDto loginRequestDto) {
 
         String uri = "http://localhost:8082/api/v1/auth/login";
 
@@ -50,11 +49,12 @@ public class AuthController {
         headers.add(HttpHeaders.SET_COOKIE, cookie.toString());
 
         return ResponseEntity.ok()
-                .headers(headers).build();
+                .headers(headers)
+                .body("Successful login");
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody LoginRequestDto loginRequestDto) {
+    public ResponseEntity<String> register(@RequestBody AuthRequestDto loginRequestDto) {
 
         String uri = "http://localhost:8082/api/v1/auth/register";
 
