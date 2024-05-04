@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: jwt-education-system
+  sql:
+    init:
+      mode: always
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true  # show in the logs whenever sql query gets executed
+
+#docker:
+#  path: /Users/haraldhiemstra/.rd/bin/docker
+
+server:
+  port: 8083
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.hibernate.sql: TRACE
+    org.hibernate.orm.jdbc.bind: TRACE # Log what values are put in the db
+
+

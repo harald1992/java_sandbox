@@ -1,0 +1,53 @@
+server:
+  port: 8080
+  ssl:
+    enabled: true
+    key-alias: localhost
+    key-store-password: rootroot
+    key-store: classpath:keystore/onsen-localhost.p12
+    key-store-type: PKCS12
+
+
+spring:
+  cloud:
+    gateway:
+      httpclient:
+        ssl:
+          useInsecureTrustManager: true
+
+
+##trust store location
+trust:
+  store: classpath:keystore/onsen-localhost.p12
+  password: rootroot
+
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    io:
+      netty:
+        resolver:
+          dns: DEBUG
+    javax.net.ssl: DEBUG
+
+
+
+
+
+# HOW to config via app
+#spring:
+#  cloud:
+#    gateway:
+#      routes:
+#        - id: login-route
+#          uri: ${LOGIN_ROUTE_URI:http://localhost:8081} # can also just do the localhost, but ${} uses environment variables, and the default is localhost 8081
+#          predicates: # what are we matching on
+#            - Path=/api/**
+#          filters:
+#            - PrefixPath=/api
+##            - name: AddResponseHeader
+##              args:
+##                name: X-Powered-By
+##                value: Touched By Gateway Service
+#            - AddResponseHeader=X-Powered-By,Touched By Gateway Service

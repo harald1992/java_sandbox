@@ -1,0 +1,47 @@
+app:
+  cookie_expiration_ms: 3600000 # 60 min
+  secure_token_validity_sec: 28800
+
+server:
+  port : 8081
+  ssl:
+    key-store-type: PKCS12
+    key-store: classpath:keystore/onsen-localhost.p12
+    key-store-password: rootroot
+    key-alias: localhost
+
+
+
+spring:
+  mvc:
+    log-request-details: true
+  sql:
+    init:
+      mode: always  # use schema.sql and data.sql on init.
+  jpa:
+    hibernate:
+#      ddl-auto: create-drop
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true  # show in the logs whenever sql query gets executed
+  datasource:
+    url: jdbc:postgresql://localhost:5432/jwt_auth
+    username: postgres
+    password: root
+
+
+
+logging:
+  level:
+    org.springframework.security.web.FilterChainProxy: DEBUG
+    org:
+      springframework:
+        web: DEBUG
+        security: DEBUG
+
+
+
+    javax.net.ssl: DEBUG

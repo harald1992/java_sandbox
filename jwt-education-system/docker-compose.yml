@@ -1,0 +1,13 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres # from docker-hub
+    restart: always
+    ports:
+      - "5431:5432" # 5433 is the local port, 5432 is the default postgres port.
+      # now the same as the one installed on the macbook, so can be seen in pgAdmin4 in database called 'postgres'
+      # if 5432 is already in use, do docker ps and docker stop container_id of the container running there.
+    environment:
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: root

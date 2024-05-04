@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static com.harald.jwtauthbff.constants.EndpointConstants.API_AUTH_URL;
+
 @Configuration
 // @EnableWebSecurity
 @RequiredArgsConstructor
@@ -15,14 +17,13 @@ public class SecurityConfig {
     // private final JwtAuthenticationFilter jwtAuthFilter;    // automatically created via spring and requiredArgsConstructor.
     //
     // private final AuthenticationProvider authenticationProvider;
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
                 //
            http.authorizeHttpRequests((configurer) -> configurer
-                        // .requestMatchers(API_AUTH_URL + "/**").permitAll() // only permit the auth endpoints without authentication
-                        .anyRequest().permitAll())   // for all other requests the user needs to be authenticated.
+                        .requestMatchers(API_AUTH_URL + "/**").permitAll() // only permit the auth endpoints without authentication
 
+                        .anyRequest().authenticated())   // for all other requests the user needs to be authenticated.
         // .formLogin(form -> form.defaultSuccessUrl("/admin")
         //         .loginPage("/login")
         //            .failureUrl("/login"));

@@ -1,23 +1,30 @@
 app:
   cookie_expiration_ms: 3600000 # 60 min
 
-
-
 logging:
   level:
     org.springframework.security: DEBUG
+    org.hibernate.sql: TRACE
+    org.hibernate.orm.jdbc.bind: TRACE # Log what values are put in the db
 
 server:
   port: 8081
 
 spring:
+  sql:
+    init:
+      mode: always
   jpa:
-    hibernate:
-      ddl-auto: create-drop  # drop database and generate automatically
+#    hibernate:
+#      ddl-auto: create-drop  # drop database and generate automatically
     #    generate-ddl: true  # generate database automatically
     properties:
       hibernate:
         globally_quoted_identifiers: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
+#        format_sql: true
     show-sql: true  # show in the logs whenever sql query gets executed
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: root
