@@ -1,0 +1,51 @@
+version: '3.1'
+
+services:
+
+  onsen-auth-service: # name of app
+    image: harald1992/onsen-auth-service:0.0.1
+    container_name: onsen-auth-service
+    ports:
+      - "8081:8081"
+    deploy:
+      resources:
+        limits:
+          memory: 700m  # 700mb memory max
+    networks:
+      - harald1992
+
+  onsen-main: # name of app
+    image: harald1992/onsen-main:0.0.1
+    container_name: onsen-main
+    ports:
+      - "8082:8082"
+    deploy:
+      resources:
+        limits:
+          memory: 700m  # 700mb memory max
+    networks:
+      - harald1992
+
+  database:
+    image: postgres # from docker-hub
+    restart: always
+    ports:
+      - "5433:5432" # first one is the one where it is accessible, the 2nd is where it is stored in the docker network.
+    environment:
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: my_db
+    networks:
+      - harald1992
+
+networks:
+  harald1992:
+    driver: "bridge"  # tell docker server to create network with name harald1992 with bridge. So all microservices will connect with eachother.
+#  db:
+#    image: postgres # from docker-hub
+#    restart: always
+#    ports:
+#      - "5432:5432" # now the same as the one installed on the macbook, so can be seen in pgAdmin4 in database called 'postgres'
+#    environment:
+#      POSTGRES_USERNAME: postgres
+#      POSTGRES_PASSWORD: root

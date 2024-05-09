@@ -10,9 +10,10 @@
 	</parent>
 	<groupId>com.harald</groupId>
 	<artifactId>onsen-auth-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>onsen-auth-service</name>
 	<description>Contains all authorization and authentication and registering etc</description>
+	<packaging>jar</packaging>	<!-- Create fat jar -->
 	<properties>
 		<java.version>17</java.version>
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
@@ -39,6 +40,15 @@
 <!--			<groupId>org.springframework.boot</groupId>-->
 <!--			<artifactId>spring-bootstarter-mail</artifactId>-->
 <!--		</dependency>-->
+
+<!--  Access swagger-ui at https://localhost:8081/swagger-ui/index.html, postgres root	-->
+   <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+      <version>2.5.0</version>
+   </dependency>
+
+
 
 		<!--	Database -->
 		<dependency>
@@ -106,11 +116,11 @@
 		</dependency>
 
 <!--		Other -->
-		<dependency>
-			<groupId>com.harald</groupId>
-			<artifactId>jwt-shared</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.harald</groupId>-->
+<!--			<artifactId>jwt-shared</artifactId>-->
+<!--			<version>0.0.1-SNAPSHOT</version>-->
+<!--		</dependency>-->
 
 	</dependencies>
 
@@ -120,6 +130,9 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<image>
+						<name>harald1992/${project.artifactId}:${version}</name>
+					</image>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>

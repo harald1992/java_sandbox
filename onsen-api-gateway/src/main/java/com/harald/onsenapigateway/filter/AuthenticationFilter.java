@@ -33,7 +33,10 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             log.info(path + " is a protected endpoint, validating if the user is logged in via the cookie.");
             MultiValueMap<String, HttpCookie> cookies = exchange.getRequest().getCookies();
             HttpCookie setCookieJwt = cookies.getFirst(HttpHeaders.SET_COOKIE);
-            assert setCookieJwt != null;
+            if (setCookieJwt == null) {
+                throw new RuntimeException("Invalid JWT token");
+            }
+
             String payload = setCookieJwt.getValue();
 
             try {

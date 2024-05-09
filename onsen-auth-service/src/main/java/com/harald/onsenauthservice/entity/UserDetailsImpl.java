@@ -2,51 +2,18 @@ package com.harald.onsenauthservice.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
 
-//
-// @Entity
-// @Table(name = "users")
-// // automatically adds quotes via application.properties because users is normally a default user db ->  globally_quoted_identifiers: true
-// @Data
-// @Builder
-// @AllArgsConstructor
-// @NoArgsConstructor
-// public class User {
-//
-//     @Id
-//     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//     protected long id;
-//
-//     @Column(unique = true)  // only one allowed, otherwise throw UniqueConstraintViolation exception.
-//     protected String username;
-//
-//     protected String password;
-//
-//     protected boolean enabled;
-//
-//
-//     public List<UserRole> getRoles() {
-//         return new ArrayList<>();
-//     }
-//
-//     public void setRoles(List<UserRole> userRole) {
-//         return;
-//     }
-// }
-//
-// // @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-// // @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-// //         inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-// // private ArrayList<UserRole> roles = new ArrayList<>();
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @Table(name = "users")
-public class UserDetailsImpl implements UserDetails {
+public class UserDetailsImpl extends Auditable implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

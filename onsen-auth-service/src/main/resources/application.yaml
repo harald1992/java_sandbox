@@ -28,7 +28,11 @@ spring:
         format_sql: true
     show-sql: true  # show in the logs whenever sql query gets executed
   datasource:
-    url: jdbc:postgresql://localhost:5432/jwt_auth
+#    url: jdbc:postgresql://localhost:5432/my_db
+#    url: jdbc:postgresql://docker.for.mac.localhost:5433/my_db
+#    url: jdbc:postgresql://host.docker.internal:5433/my_db
+    url: jdbc:postgresql://gateway.docker.internal:5433/my_db
+
     username: postgres
     password: root
 
@@ -45,3 +49,6 @@ logging:
 
 
     javax.net.ssl: DEBUG
+
+
+

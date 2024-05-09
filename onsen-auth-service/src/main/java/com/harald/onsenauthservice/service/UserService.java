@@ -1,12 +1,12 @@
 package com.harald.onsenauthservice.service;
 
+import com.harald.onsenauthservice.dto.AuthRequestDto;
 import com.harald.onsenauthservice.entity.Role;
 // import com.harald.jwtauth.entity.SecureToken;
 import com.harald.onsenauthservice.entity.UserDetailsImpl;
 import com.harald.onsenauthservice.error.ApiException;
 import com.harald.onsenauthservice.repository.RoleRepository;
 import com.harald.onsenauthservice.repository.UserRepository;
-import com.harald.jwtshared.dto.AuthRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,7 +27,7 @@ public class UserService {
 
     // private final SecureTokenService secureTokenService;
 
-    private final EmailService emailService;
+    // private final EmailService emailService;
 
     // todo: create correct exception.
     public void registerUser(AuthRequestDto authRequestDto) throws RuntimeException {

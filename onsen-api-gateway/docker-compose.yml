@@ -1,0 +1,60 @@
+version: '3.1'
+
+services:
+  database:
+    image: postgres # from docker-hub
+    container_name: onsen-postgres-database
+    restart: always
+    ports:
+      - "5433:5432" # first one is the one where it is accessible, the 2nd is where it is stored in the docker network.
+    deploy:
+      resources:
+        limits:
+          memory: 700m  # 700mb memory max
+    environment:
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: my_db
+    networks:
+      - harald1992
+
+  onsen-api-gateway: # name of app
+    image: harald1992/onsen-api-gateway:0.0.1
+    container_name: onsen-api-gateway
+    ports:
+      - "8080:8080"
+    deploy:
+      resources:
+        limits:
+          memory: 700m  # 700mb memory max
+    networks:
+      - harald1992
+
+  onsen-auth-service: # name of app
+    image: harald1992/onsen-auth-service:0.0.1
+    container_name: onsen-auth-service
+    ports:
+      - "8081:8081"
+    deploy:
+      resources:
+        limits:
+          memory: 700m  # 700mb memory max
+    networks:
+      - harald1992
+
+  onsen-main: # name of app
+    image: harald1992/onsen-main:0.0.1
+    container_name: onsen-main
+    ports:
+      - "8082:8082"
+    deploy:
+      resources:
+        limits:
+          memory: 700m  # 700mb memory max
+    networks:
+      - harald1992
+
+
+networks:
+  harald1992:
+    driver: "bridge"  # tell docker server to create network with name harald1992 with bridge. So all microservices will connect with eachother.
