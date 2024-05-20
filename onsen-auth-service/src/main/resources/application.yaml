@@ -1,26 +1,27 @@
-app:
-  cookie_expiration_ms: 3600000 # 60 min
-  secure_token_validity_sec: 28800
-
 server:
-  port : 8081
+  port: 8081
   ssl:
     key-store-type: PKCS12
     key-store: classpath:keystore/onsen-localhost.p12
     key-store-password: rootroot
     key-alias: localhost
 
-
-
 spring:
+  application:
+    name: onsen-auth-service
+  config:
+    import: "optional:configserver:http://localhost:8071/"
+  rabbitmq:
+    host: "localhost"
+    port: 5672
+    username: "guest"
+    password: "guest"
   mvc:
     log-request-details: true
   sql:
     init:
       mode: always  # use schema.sql and data.sql on init.
   jpa:
-    hibernate:
-#      ddl-auto: create-drop
     properties:
       hibernate:
         globally_quoted_identifiers: true
@@ -28,15 +29,10 @@ spring:
         format_sql: true
     show-sql: true  # show in the logs whenever sql query gets executed
   datasource:
-#    url: jdbc:postgresql://localhost:5432/my_db
-#    url: jdbc:postgresql://docker.for.mac.localhost:5433/my_db
-#    url: jdbc:postgresql://host.docker.internal:5433/my_db
-    url: jdbc:postgresql://gateway.docker.internal:5433/my_db
-
+    url: jdbc:postgresql://localhost:5432/postgres
+#    url: jdbc:postgresql://gateway.docker.internal:5433/my_db
     username: postgres
     password: root
-
-
 
 logging:
   level:
@@ -45,10 +41,22 @@ logging:
       springframework:
         web: DEBUG
         security: DEBUG
-
-
-
     javax.net.ssl: DEBUG
 
 
+
+
+app:
+  cookie_expiration_ms: 3600000 # 60 min
+  secure_token_validity_sec: 28800
+
+build-info:
+  appName: onsen-auth-service
+  environment: local
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  # tell actuator to expose all endpoints, including refresh and bus-refresh, see endpoints at localhost:8082/actuator
 

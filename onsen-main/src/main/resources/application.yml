@@ -1,0 +1,57 @@
+server:
+  port: 8082
+  ssl:
+    key-store-type: PKCS12
+    key-store: classpath:keystore/onsen-localhost.p12
+    key-store-password: rootroot
+    key-alias: localhost
+
+spring:
+
+  application:
+    name: onsen-main
+
+  config:
+    import: "optional:configserver:http://localhost:8071/"
+  profiles:
+    active:
+      - "prod"
+  cloud:
+    bus:
+      enabled: on
+      refresh:
+        enabled: true
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+
+
+
+
+#      - "application-prod_archive.yml"
+
+
+
+
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  # tell actuator to expose all endpoints, including refresh.
+#        include: "refresh"
+#  https://localhost:8082/actuator
+#  post https://localhost:8082/actuator/refresh to get new changed values from config server.
+
+
+build-info:
+  appName: onsen-main
+  environment: local

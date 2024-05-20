@@ -36,3 +36,25 @@ RISKS RWT:
 - You need to add functionality to refresh the Jwt often
 
 - CSRF attacks: add samesite attribute to http-only cookie, so the cookie only works when the same site is used for the website and not coming from a different url.
+
+
+# Docker
+mvn spring-boot:build-image
+docker image push docker.io/harald1992/onsen-auth-service:0.0.1
+
+docker inspect [container-id]   -> docker information like port etc
+docker logs [container-id] # evt -f (follow)
+docker container prune -> remove all stopped containers
+docker image prune  -> remove unused images
+docker container stats  -> CPU, memory etc
+docker login -u [username]  -> login to docker hub in terminal
+docker history [image-id]   -> display intermediate layers and commands that were executed when building the image
+
+docker exec -t [container-id] -> open a shell inside running container and execute commands
+docker exec -it [container-id]  psql -U postgres -d [database-name] -c "SELECT * FROM users;"    -> SQL into postgres image
+docker exec -it 71e4b1c13525 psql -U postgres -d my_db -c "SELECT * FROM users;"
+docker exec 4ef271578e81 sh -c 'ls -la' -> see file contents
+
+## Docker compose
+docker-compose up -d runs all the images defined in the yml file
+docker-compose down removes all the images defined in the yml file

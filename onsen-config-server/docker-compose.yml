@@ -18,6 +18,33 @@ services:
     networks:
       - harald1992
 
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+#    volumes:
+#      - rabbitmq_data:/var/lib/rabbitmq
+    deploy:
+      resources:
+        limits:
+          memory: 700m  # 700mb memory max
+    networks:
+      - harald1992
+
+  onsen-config-server: # name of app
+    image: harald1992/onsen-config-server:0.0.1
+    container_name: onsen-config-server
+    ports:
+      - "8071:8071"
+    deploy:
+      resources:
+        limits:
+          memory: 700m  # 700mb memory max
+    networks:
+      - harald1992
+
   onsen-api-gateway: # name of app
     image: harald1992/onsen-api-gateway:0.0.1
     container_name: onsen-api-gateway

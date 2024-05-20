@@ -1,0 +1,4 @@
+
+build-info:
+  appName: onsen-auth-service
+  environment: production_changed_by_cloud_bus

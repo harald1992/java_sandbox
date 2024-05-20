@@ -1,0 +1,39 @@
+server:
+  port: 8071
+
+spring:
+  application:
+    name: onsen-config-server
+  profiles:
+    active: native # tell spring cloud config server to activate native spring cloud configuration
+  cloud:
+    bus:
+      enabled: true
+    config:
+      enabled: true
+      server:
+        native: # native profile
+          search-locations: "classpath:/config" # where our application.yml are stored
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+logging:
+  level:
+    org.springframework.cloud: DEBUG
+
+
+# encrypt:  # TODO: use to encrypt properties like db access  # localhost:8071/encrypt post and it encrypts it  # localhost:8071/decrypt post to decrypt
+  # values will automatically be decrypted if for example the encrypted is in the application.yml -> {cipher}04e3494170be2c7a6acc528a296fbf3d3aaf7814455050f85b1cff2ab4a128b9
+  # key: f211c3e0-70a8-45a1-a3ab-0eb06ea19a8b # uuid,
+  #          search-locations: "file:///Users//Downloads//config" # could also do from file system (so also possible to store in the docker container at runtime or build
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    busrefresh:
+      enabled: true
