@@ -25,4 +25,4 @@ services:
     extends:
       service: microservice-needing-config-server-config
     environment:
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://onsen-eureka-server:8070/eureka/
