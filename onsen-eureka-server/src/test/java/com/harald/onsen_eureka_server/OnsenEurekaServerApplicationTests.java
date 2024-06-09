@@ -1,12 +1,10 @@
-// package com.harald.onsenmain;
+// package com.harald.onsen_eureka_server;
 //
 // import org.junit.jupiter.api.Test;
 // import org.springframework.boot.test.context.SpringBootTest;
-// import org.springframework.cloud.context.config.annotation.RefreshScope;
 //
 // @SpringBootTest
-// @RefreshScope
-// class OnsenMainApplicationTests {
+// class OnsenEurekaServerApplicationTests {
 //
 // 	@Test
 // 	void contextLoads() {

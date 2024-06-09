@@ -1,0 +1,5 @@
+#  http://localhost:8071/onsen-eureka-server/prod
+
+build-info:
+  appName: onsen-eureka-server
+  environment: prod

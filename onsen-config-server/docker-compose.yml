@@ -1,22 +1,24 @@
 version: '3.1'
 
 services:
-  database:
+  postgres:
     image: postgres # from docker-hub
-    container_name: onsen-postgres-database
+    container_name: postgres
     restart: always
     ports:
       - "5433:5432" # first one is the one where it is accessible, the 2nd is where it is stored in the docker network.
-    deploy:
-      resources:
-        limits:
-          memory: 700m  # 700mb memory max
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U myuser" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     environment:
       POSTGRES_USERNAME: postgres
       POSTGRES_PASSWORD: root
-      POSTGRES_DB: my_db
-    networks:
-      - harald1992
+      POSTGRES_DB: postgres
+    extends:
+      file: docker-common-config.yml
+      service: base-config
 
   rabbitmq:
     image: rabbitmq:3.13-management
@@ -24,63 +26,116 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
-#    volumes:
-#      - rabbitmq_data:/var/lib/rabbitmq
-    deploy:
-      resources:
-        limits:
-          memory: 700m  # 700mb memory max
-    networks:
-      - harald1992
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    extends:
+      file: docker-common-config.yml
+      service: base-config
 
   onsen-config-server: # name of app
     image: harald1992/onsen-config-server:0.0.1
     container_name: onsen-config-server
     ports:
       - "8071:8071"
-    deploy:
-      resources:
-        limits:
-          memory: 700m  # 700mb memory max
-    networks:
-      - harald1992
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "/cnb/process/health-check" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    extends:
+      file: docker-common-config.yml
+      service: microservice-base-config
+    environment:
+      - THC_PATH=/actuator/health # needed for the /cnb/process/health-check from paketo healthcheck
+      - THC_PORT=8071 # needed for the /cnb/process/health-check from paketo healthcheck
+
+  onsen-eureka-server: # name of app
+    image: harald1992/onsen-eureka-server:0.0.1
+    container_name: onsen-eureka-server
+    ports:
+      - "8070:8070"
+    depends_on:
+      onsen-config-server:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "/cnb/process/health-check" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    extends:
+      file: docker-common-config.yml
+      service: microservice-needing-config-server-config
+    environment:
+      THC_PATH: /actuator/health # needed for the /cnb/process/health-check from paketo healthcheck
+      THC_PORT: 8070 # needed for the /cnb/process/health-check from paketo healthcheck
+      SPRING_APPLICATION_NAME: onsen-eureka-server  # according to course needed because of a bug in config server
+
+        #    environment:
+#      SPRING_APPLICATION_NAME: "onsen-eureka-server"  # according to course needed because of a bug in config server
+#        - THC_PATH=/actuator/health
+##      - THC_PATH=/actuator/health # needed for the /cnb/process/health-check from paketo healthcheck
+##      - THC_PORT=8071 # needed for the /cnb/process/health-check from paketo healthcheck
 
   onsen-api-gateway: # name of app
     image: harald1992/onsen-api-gateway:0.0.1
     container_name: onsen-api-gateway
     ports:
       - "8080:8080"
-    deploy:
-      resources:
-        limits:
-          memory: 700m  # 700mb memory max
-    networks:
-      - harald1992
+    depends_on:
+      onsen-config-server:
+        condition: service_healthy
+      onsen-eureka-server:
+        condition: service_healthy
+    extends:
+      file: docker-common-config.yml
+      service: microservice-needing-eureka-server-config
+    environment:
+      SPRING_APPLICATION_NAME: "onsen-api-gateway"  # according to course needed because of a bug in config server
 
   onsen-auth-service: # name of app
     image: harald1992/onsen-auth-service:0.0.1
     container_name: onsen-auth-service
     ports:
       - "8081:8081"
-    deploy:
-      resources:
-        limits:
-          memory: 700m  # 700mb memory max
-    networks:
-      - harald1992
+    depends_on:
+      onsen-config-server:
+        condition: service_healthy
+      onsen-eureka-server:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    extends:
+      file: docker-common-config.yml
+      service: microservice-needing-eureka-server-config
+    environment:
+      SPRING_APPLICATION_NAME: "onsen-auth-service"  # according to course needed because of a bug in config server
+#      SPRING_DATASOURCE_URL: "jdbc:mysql://gateway.docker.internal:3306/company"
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/postgres" # needs internal url, so not 5433 like it uses for outside port 5433:5432
 
   onsen-main: # name of app
     image: harald1992/onsen-main:0.0.1
     container_name: onsen-main
+    depends_on:
+      onsen-config-server:
+        condition: service_healthy
+      onsen-eureka-server:
+        condition: service_healthy
     ports:
       - "8082:8082"
-    deploy:
-      resources:
-        limits:
-          memory: 700m  # 700mb memory max
-    networks:
-      - harald1992
-
+    extends:
+      file: docker-common-config.yml
+      service: microservice-needing-eureka-server-config
+    environment:
+      SPRING_APPLICATION_NAME: "onsen-main" # according to course needed because of a bug in config server
 
 networks:
   harald1992:

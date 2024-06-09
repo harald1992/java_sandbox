@@ -1,0 +1,28 @@
+
+services:
+  base-config: # for rabbitMQ etc
+    networks:
+      - harald1992
+
+  microservice-base-config: # for the microservices, so they get base-config and more
+    extends:
+      service: base-config
+    deploy:
+      resources:
+        limits:
+          memory: 700m  # 700mb memory max
+    environment:
+      SPRING_RABBITMQ_HOST: "rabbitmq"
+
+  microservice-needing-config-server-config:
+    extends:
+      service: microservice-base-config
+    environment:
+      SPRING_CONFIG_IMPORT: "configserver:http://onsen-config-server:8071/" # onsen-config-server url is fetched from this docker-compose file.
+      SPRING_PROFILES_ACTIVE: "prod"
+
+  microservice-needing-eureka-server-config:
+    extends:
+      service: microservice-needing-config-server-config
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/

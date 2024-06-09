@@ -1,0 +1,4 @@
+
+build-info:
+  appName: onsen-api-gateway
+  environment: prod

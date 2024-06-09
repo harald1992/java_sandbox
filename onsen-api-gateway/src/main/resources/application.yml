@@ -9,12 +9,15 @@ server:
 
 
 spring:
+  application:
+    name: onsen-api-gateway
   cloud:
     gateway:
       httpclient:
         ssl:
           useInsecureTrustManager: true
 
+# TODO: CHANGE ALL TRAFFIC BACK TO HTTP, TLS and HTTPS might be implemented using Ingress Controllers or Service Mesh or smth.
 
 ##trust store location
 trust:

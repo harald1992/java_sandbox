@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.harald.onsenauthservice.constants.EndpointConstants.API_AUTH_URL;
+import static com.harald.onsenauthservice.constants.EndpointConstants.API_USERS_URL;
 
 @Configuration
 @RequiredArgsConstructor
@@ -80,10 +81,11 @@ public class SecurityConfig {
                         configurer
                                 .requestMatchers(API_AUTH_URL+ "/validateJwt").authenticated()
                                 .requestMatchers(API_AUTH_URL + "/**").permitAll()
+                                .requestMatchers(API_USERS_URL).permitAll()
                                 // .anyRequest().hasRole("ADMIN")   // TODO: ADD ROLES
                                 .anyRequest().authenticated()
                 )
-                .requiresChannel(c -> c.anyRequest().requiresSecure())  // set all requests to https
+                // .requiresChannel(c -> c.anyRequest().requiresSecure())  // set all requests to https
                 // .rememberMe(httpSecurityRememberMeConfigurer -> httpSecurityRememberMeConfigurer.userDetailsService(userDetailsServiceImpl))
                 // .rememberMe(h -> h.tokenRepository(persistentTokenRepository()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
