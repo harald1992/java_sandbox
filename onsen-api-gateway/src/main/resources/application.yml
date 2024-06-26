@@ -1,29 +1,27 @@
 server:
-  port: 8080
-  ssl:
-    enabled: true
-    key-alias: localhost
-    key-store-password: rootroot
-    key-store: classpath:keystore/onsen-localhost.p12
-    key-store-type: PKCS12
-
+  port: 8072
+#  ssl:
+#    enabled: true
+#    key-alias: localhost
+#    key-store-password: rootroot
+#    key-store: classpath:keystore/onsen-localhost.p12
+#    key-store-type: PKCS12
 
 spring:
   application:
     name: onsen-api-gateway
+  config:
+    import: "optional:configserver:http://localhost:8071/"
   cloud:
     gateway:
-      httpclient:
-        ssl:
-          useInsecureTrustManager: true
-
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+#      httpclient:
+#        ssl:
+#          useInsecureTrustManager: true
 # TODO: CHANGE ALL TRAFFIC BACK TO HTTP, TLS and HTTPS might be implemented using Ingress Controllers or Service Mesh or smth.
-
-##trust store location
-trust:
-  store: classpath:keystore/onsen-localhost.p12
-  password: rootroot
-
 
 logging:
   level:
@@ -32,9 +30,11 @@ logging:
       netty:
         resolver:
           dns: DEBUG
-    javax.net.ssl: DEBUG
 
-
+management:
+  endpoint:
+    gateway:
+      enabled: true
 
 
 
@@ -54,3 +54,4 @@ logging:
 ##                name: X-Powered-By
 ##                value: Touched By Gateway Service
 #            - AddResponseHeader=X-Powered-By,Touched By Gateway Service
+

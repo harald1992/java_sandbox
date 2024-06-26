@@ -1,6 +1,8 @@
 # Eureka Server Dashboard -> http://localhost:8070/
 # Alle apps               -> http://localhost:8070/eureka/apps, met Accept: application/json header krijg je json terug ipv xml
 # Specifieke service      -> http://localhost:8070/eureka/apps/onsen-main
+server:
+  port: 8070
 
 spring:
   application:
@@ -8,34 +10,36 @@ spring:
   config:
     import: "optional:configserver:http://localhost:8071/"
 
-server:
-  port: 8070
+#eureka:
+#  instance:
+#    hostname: localhost
+#    non-secure-port-enabled: true
+#    secure-port-enabled: true
+#    status-page-url: http://${eureka.instance.hostName}:${server.port}/info
+#    health-check-url: http://${eureka.instance.hostName}:${server.port}/health
+#    home-page-url: http://${eureka.instance.hostName}:${server.port}/
+#  client:
+#    fetchRegistry: false  # by default true, here false since the eureka server doesn't need to fetch the registry, it is the registry?
+#    registerWithEureka: false # by default true, here false since it shouldn 't register itself
+#    serviceUrl:
+#      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
 
-eureka:
-  instance:
-    hostname: localhost
-    non-secure-port-enabled: true
-    secure-port-enabled: true
-    status-page-url: http://${eureka.instance.hostName}:${server.port}/info
-    health-check-url: http://${eureka.instance.hostName}:${server.port}/health
-    home-page-url: http://${eureka.instance.hostName}:${server.port}/
-  client:
-    fetchRegistry: false  # by default true, here false since the eureka server doesn't need to fetch the registry, it is the registry?
-    registerWithEureka: false # by default true, here false since it shouldn 't register itself
-    serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
+#  health:
+#    readiness-state:
+#      enabled: true
+#    liveness-state:
+#      enabled: true
+#  endpoint:
+#    health:
+#      probes:
+#        enabled: true
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  health:
-    readiness-state:
-      enabled: true
-    liveness-state:
-      enabled: true
-  endpoint:
-    health:
-      probes:
-        enabled: true
+#management:
+#  endpoint:
+#    env:
+#      show-values: ALWAYS

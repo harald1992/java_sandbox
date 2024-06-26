@@ -1,0 +1,4 @@
+# Should be applied to all the application in this directory
+
+build-info:
+  environment: prod

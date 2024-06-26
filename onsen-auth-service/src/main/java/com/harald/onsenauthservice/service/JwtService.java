@@ -19,8 +19,7 @@ import java.util.function.Function;
 public class JwtService {
 
     // from https://acte.ltd/utils/randomkeygen
-    // private static final String SECRET_KEY =
-    //         "N7cUCzPyPD33WkjbGcPQoz2n2eSnUkpwwXUg6jGSwrYpzYH8AaNoybNoDJqgHf3TL7nn4EfJayGmkwJQCgBJcw3NhGD3pyapBmFn9LMbH7Jjo7X3TRroCwbh8NyqYU72gUB5Ntfek9oQhpWTGmS7D2B3Nhg9j6W93j3byGbs2ZBfDFpMfrXF7dZa4dAjy2dhfebG4o5SjkcFKpRKKCStM5Dt9rq9GPEk5ZZT4ThEmmdFqtJHjy7wfMCtpxsbknnN";
+    // private static final String SECRET_KEY = "N7cUCzPyPD33WkjbGcPQoz2n2eSnUkpwwXUg6jGSwrYpzYH8AaNoybNoDJqgHf3TL7nn4EfJayGmkwJQCgBJcw3NhGD3pyapBmFn9LMbH7Jjo7X3TRroCwbh8NyqYU72gUB5Ntfek9oQhpWTGmS7D2B3Nhg9j6W93j3byGbs2ZBfDFpMfrXF7dZa4dAjy2dhfebG4o5SjkcFKpRKKCStM5Dt9rq9GPEk5ZZT4ThEmmdFqtJHjy7wfMCtpxsbknnN";
     private static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
     @Value("${app.cookie_expiration_ms}")
