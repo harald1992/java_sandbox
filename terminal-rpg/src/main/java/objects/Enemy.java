@@ -5,14 +5,14 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class Player extends Unit{
+public class Enemy extends Unit  {
 
-    public Player(String name, int maxHp, int attack) {
-        super(name, maxHp, attack);
+    public Enemy(String name, int maxHp, int attack ) {
+        super(name, maxHp, attack, maxHp * attack);
     }
 
-    @Override
-    public int attack() {
-        return 0;
+    public Enemy(Enemy enemy) {
+        super(enemy.getName(), enemy.getMaxHp(), enemy.getAttack(), enemy.getMaxHp() * enemy.getAttack());
     }
+
 }

@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static helpers.LevelCalculator.calculateXpForLevel;
 
-public class LevelCalculator {
+public class LevelCalculatorTests {
 
     @Test
     void calculateLevels() {
