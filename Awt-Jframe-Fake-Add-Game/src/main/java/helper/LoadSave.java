@@ -2,25 +2,18 @@ package helper;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.awt.image.RasterFormatException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class LoadSave {
 
-    private static ConcurrentHashMap<String, BufferedImage> imageCache = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, BufferedImage> imageCache = new ConcurrentHashMap<>();
 
     public static BufferedImage loadFullImage(final String imagePath) {
         if (imageCache.containsKey(imagePath)) {
@@ -43,22 +36,20 @@ public class LoadSave {
         return null;
     }
 
-    private static boolean isImageFile(final String imagePath) {
-        final URL resource = LoadSave.class.getResource(imagePath);
-        if (resource == null) {
-            return false;
-        }
-        return true;
-    }
+//    private static boolean isImageFile(final String imagePath) {
+//        final URL resource = LoadSave.class.getResource(imagePath);
+//        if (resource == null) {
+//            return false;
+//        }
+//        return true;
+//    }
 
     private static ArrayList<String> listFilesUsingJavaIO(final String dir) {
         final URL resource = LoadSave.class.getResource(dir);
         if (resource == null) {
             return null;
         }
-        return new ArrayList<>(Stream.of(Objects.requireNonNull(new File(resource.getPath()).listFiles()))
-                .filter(file -> !file.isDirectory())
-                .map(File::getName).toList());
+        return new ArrayList<>(Stream.of(Objects.requireNonNull(new File(resource.getPath()).listFiles())).filter(file -> !file.isDirectory()).map(File::getName).toList());
     }
 
     public static ArrayList<BufferedImage> loadImagesFromFolder(final String folderPath) {
@@ -67,16 +58,20 @@ public class LoadSave {
 
         assert fileNames != null;
         for (final String fileName : fileNames) {
+            System.out.println(fileName);
+            if (fileName.endsWith(".png")) {
                 final var img = loadFullImage(folderPath + "/" + fileName);
                 if (img != null) {
                     list.add(img);
+                }
             }
+
         }
         return list;
 
     }
 
-    public static BufferedImage getSubImageFromSpriteSheet(final BufferedImage spriteSheet, final int xCord, final int yCord, final int padding) {
+    public static BufferedImage getSubImageFromSpriteSheet(final BufferedImage spriteSheet, final int xCord, final int yCord, final int padding) throws RasterFormatException {
         final int step = 128;
 
         final int spriteWidth = 128 - 2 * padding;

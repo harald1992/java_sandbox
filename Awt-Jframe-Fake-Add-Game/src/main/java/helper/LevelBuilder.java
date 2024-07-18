@@ -7,6 +7,7 @@ import object.tile.TileEnum;
 
 import java.util.ArrayList;
 
+import static configuration.Configuration.DEFAULT_UNIT_SIZE;
 import static configuration.Configuration.ROAD_X_MAX;
 import static configuration.Configuration.ROAD_X_MIN;
 import static configuration.Configuration.TILE_SIZE;
@@ -81,8 +82,8 @@ public class LevelBuilder {
             enemies.add(new Enemy(randomX, y));
 //            randomX = getRandomNumberBetween(ROAD_X_MIN, ROAD_X_MAX);
 
-//            enemies.add(new Enemy(randomX, y, DEFAULT_UNIT_SIZE, 2 * DEFAULT_UNIT_SIZE));
         }
+        enemies.add(new Enemy(ROAD_X_MIN, Y_MAX - DEFAULT_UNIT_SIZE));
 
         return enemies;
     }

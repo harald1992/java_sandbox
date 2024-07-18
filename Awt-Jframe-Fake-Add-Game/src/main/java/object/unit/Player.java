@@ -1,5 +1,6 @@
 package object.unit;
 
+import enums.AnimationStateEnum;
 import lombok.Getter;
 import lombok.Setter;
 import object.GameObject;
@@ -8,19 +9,13 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static configuration.Configuration.DEFAULT_UNIT_SIZE;
 import static configuration.Configuration.GAME_HEIGHT;
 import static configuration.Configuration.GAME_WIDTH;
-import static constants.AnimationDictionary.SHOOTING_BOTTOM;
-import static constants.AnimationDictionary.SHOOTING_BOTTOM_LEFT;
-import static constants.AnimationDictionary.SHOOTING_BOTTOM_RIGHT;
-import static constants.AnimationDictionary.SHOOTING_LEFT;
-import static constants.AnimationDictionary.SHOOTING_RIGHT;
-import static constants.AnimationDictionary.SHOOTING_TOP;
-import static constants.AnimationDictionary.SHOOTING_TOP_LEFT;
-import static constants.AnimationDictionary.SHOOTING_TOP_RIGHT;
+
 import static helper.DrawHelpers.drawTextInMiddleOfBox;
 import static helper.GlobalAccessor.setGlobalPlayer;
 import static helper.SpreadingHelpers.arrangeUnitsInFormation;
@@ -65,29 +60,28 @@ public class Player extends Unit {
 
         if (dy < 0) {
             if (dx > 0) {
-                playerMinions.forEach(minion -> minion.setCurrentAnimation(SHOOTING_TOP_RIGHT));
+                playerMinions.forEach(minion -> minion.setCurrentAnimationCoordinates(AnimationStateEnum.WALK_TOP_RIGHT));
             } else if (dx < 0) {
-                playerMinions.forEach(minion -> minion.setCurrentAnimation(SHOOTING_TOP_LEFT));
+                playerMinions.forEach(minion -> minion.setCurrentAnimationCoordinates(AnimationStateEnum.WALK_TOP_LEFT));
             } else {
-                playerMinions.forEach(minion -> minion.setCurrentAnimation(SHOOTING_TOP));
+                playerMinions.forEach(minion -> minion.setCurrentAnimationCoordinates(AnimationStateEnum.WALK_TOP));
             }
         }
         if (dy > 0) {
             if (dx > 0) {
-                playerMinions.forEach(minion -> minion.setCurrentAnimation(SHOOTING_BOTTOM_RIGHT));
+                playerMinions.forEach(minion -> minion.setCurrentAnimationCoordinates(AnimationStateEnum.WALK_BOTTOM_RIGHT));
             } else if (dx < 0) {
-                playerMinions.forEach(minion -> minion.setCurrentAnimation(SHOOTING_BOTTOM_LEFT));
+                playerMinions.forEach(minion -> minion.setCurrentAnimationCoordinates(AnimationStateEnum.WALK_BOTTOM_LEFT));
             } else {
-                playerMinions.forEach(minion -> minion.setCurrentAnimation(SHOOTING_BOTTOM));
+                playerMinions.forEach(minion -> minion.setCurrentAnimationCoordinates(AnimationStateEnum.WALK_BOTTOM));
             }
         }
 
         if (dy == 0) {
-
             if (dx > 0) {
-                playerMinions.forEach(minion -> minion.setCurrentAnimation(SHOOTING_RIGHT));
+                playerMinions.forEach(minion -> minion.setCurrentAnimationCoordinates(AnimationStateEnum.WALK_RIGHT));
             } else if (dx < 0) {
-                playerMinions.forEach(minion -> minion.setCurrentAnimation(SHOOTING_LEFT));
+                playerMinions.forEach(minion -> minion.setCurrentAnimationCoordinates(AnimationStateEnum.WALK_LEFT));
             }
         }
 
@@ -102,6 +96,9 @@ public class Player extends Unit {
         final int offsetToMakeSmoother = 5;
         playerMinions.stream().filter(minion -> minion.getY() > getCameraY() && minion.getY() < getCameraY() + GAME_HEIGHT - offsetToMakeSmoother)
                 .forEach(minion -> minion.draw(g));
+
+//        playerMinions.forEach(minion -> System.out.println(Arrays.deepToString(minion.getCurrentAnimationCoordinates())));
+
         drawTextInMiddleOfBox(g, new GameObject(x, y - DEFAULT_UNIT_SIZE / 2, DEFAULT_UNIT_SIZE, DEFAULT_UNIT_SIZE) {
             @Override
             public void update() {
