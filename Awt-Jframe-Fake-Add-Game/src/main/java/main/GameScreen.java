@@ -17,10 +17,9 @@ public class GameScreen extends JPanel {
     public GameScreen(Game game) {
         this.game = game;
         this.renderer = new Renderer(this);
-
-        setPanelSize();
         setDoubleBuffered(true);
-
+        setPanelSize();
+//        RepaintManager.currentManager(this).setDoubleBufferingEnabled(true);
     }
 
     private void setPanelSize() {

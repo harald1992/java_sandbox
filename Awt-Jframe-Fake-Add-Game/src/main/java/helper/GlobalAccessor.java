@@ -1,6 +1,6 @@
 package helper;
 
-import object.Player;
+import object.unit.Player;
 
 public class GlobalAccessor {
 

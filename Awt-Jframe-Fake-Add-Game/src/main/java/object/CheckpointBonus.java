@@ -12,7 +12,7 @@ public class CheckpointBonus extends GameObject {
     private final String text;
     private final Consumer<Integer> bonus;
 
-    public CheckpointBonus(final float x, final float y, final int width, final int height, final String text, final Consumer<Integer> bonus) {
+    public CheckpointBonus(final int x, final int y, final int width, final int height, final String text, final Consumer<Integer> bonus) {
         super(x, y, width, height);
         this.text = text;
         this.bonus = bonus;
@@ -24,12 +24,19 @@ public class CheckpointBonus extends GameObject {
 
     @Override
     public void draw(Graphics2D g) {
+        // transparency
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+        g.setColor(Color.YELLOW);
 
-        g.setColor(Color.BLUE);
-        //        g.setStroke(new BasicStroke(3.0f));
         g.fillRect(drawX(), drawY(), width, height);
+
+        // reset alpha
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+
         drawTextInMiddleOfBox(g, this, text);
         g.setColor(Color.WHITE);
         g.drawRect(drawX(), drawY(), width, height);
+
+
     }
 }

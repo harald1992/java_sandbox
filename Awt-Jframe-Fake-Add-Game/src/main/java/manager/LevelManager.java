@@ -2,14 +2,18 @@ package manager;
 
 import helper.LevelBuilder;
 import lombok.Getter;
-import object.Player;
+import object.unit.Player;
 import scene.PlayingScene;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 import static configuration.Configuration.DEFAULT_UNIT_SIZE;
+import static configuration.Configuration.GAME_HEIGHT;
+import static configuration.Configuration.GAME_WIDTH;
 import static configuration.Configuration.X_MAX;
 import static configuration.Configuration.Y_MAX;
+import static helper.LoadSave.loadFullImage;
 
 @Getter
 public class LevelManager {
@@ -33,7 +37,7 @@ public class LevelManager {
 
     public void startNewLevel() {
         tileManager.setTiles(levelBuilder.createTileMap());
-        player = new Player(0.5f * X_MAX, Y_MAX - 10 * DEFAULT_UNIT_SIZE, DEFAULT_UNIT_SIZE, 2 * DEFAULT_UNIT_SIZE);
+        player = new Player(X_MAX / 2, Y_MAX - 5 * DEFAULT_UNIT_SIZE);
 
         enemyManager.setEnemies(levelBuilder.createEnemies());
 
@@ -53,9 +57,31 @@ public class LevelManager {
         enemyManager.draw(g);
         checkpointManager.draw(g);
         player.draw(g);
+        BufferedImage bg = loadFullImage("/BackgroundFade_medium.png");
 
-//        g.setColor(Color.DARK_GRAY);
-//        g.drawRect(0,0, 100, 100);
+        drawBlackOverlayExceptCircle(g);
+        g.drawImage(bg, 0, 0, GAME_WIDTH, GAME_HEIGHT, null);
+        //        g.setColor(Color.DARK_GRAY);
+        //        g.drawRect(0,0, 100, 100);
+    }
+
+    private void drawBlackOverlayExceptCircle(Graphics2D g) {
+//        g.setComposite(AlphaComposite.SrcOver.derive(0.5f)); // 0.0f for fully transparent
+//
+//        g.setColor(Color.BLACK);
+//        g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+//
+//        g.setComposite(AlphaComposite.SrcOver.derive(0.0f)); // 0.0f for fully transparent
+//       int radius = TILE_SIZE;
+//       int centerX = getCameraX() + GAME_WIDTH / 2;
+//       int centerY = getCameraY() + GAME_HEIGHT / 2;
+//
+//        Ellipse2D.Double circle = new Ellipse2D.Double(centerX - radius, centerY - radius, 2 * radius, 2 * radius);
+//        g.fill(circle);
+//
+//        g.setComposite(AlphaComposite.SrcOver.derive(1.0f));
+
+
     }
 
 }

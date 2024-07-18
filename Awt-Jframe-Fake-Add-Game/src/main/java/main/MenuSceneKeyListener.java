@@ -22,7 +22,6 @@ public class MenuSceneKeyListener implements KeyListener {
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
         case KeyEvent.VK_ENTER:
-            System.out.println("Enter key pressed");
             setGameState(GameState.PLAYING);
             break;
         }

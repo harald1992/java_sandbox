@@ -2,18 +2,24 @@ package main;
 
 public class Camera {
 
-    private static float x, y;
+    private static int x, y;
 
-    public static void setCameraPosition(final float xPos, final float yPos) {
+    public static void setCameraPosition(final int xPos, final int yPos) {
         x = xPos;
         y = yPos;
+//        int intX = (int) Math.floor(xPos);
+//        int intY = (int) Math.floor(yPos);
+
+        // Update camera position with integer coordinates to avoid rounding errors
+//        x = intX;
+//        y = intY;
     }
 
     public static int getCameraX() {
-        return (int) x;
+        return  x;
     }
 
     public static int getCameraY() {
-        return (int) y;
+        return y;
     }
 }

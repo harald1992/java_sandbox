@@ -1,12 +1,11 @@
 package manager;
 
 import lombok.Setter;
-import object.Enemy;
+import object.unit.Enemy;
 import object.GameObject;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 @Setter
 public class EnemyManager {

@@ -1,4 +1,4 @@
-package object;
+package object.unit;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -12,16 +12,10 @@ public class Enemy extends Unit {
 
     private BufferedImage spriteSheet;
 
-//    private final int xSize = 111;
-//    private final int ySize = 65;
-
-    public Enemy(final float x, final float y, final int width, final int height) {
+    public Enemy(final int x, final int y) {
         super(x, y, 666 / 6, 325 / 5);
         sprite = loadFullImage("/sprites/skeleton-idle_0.png");
         spriteSheet = loadFullImage("/spritesheets/skeleton_walk.png");
-
-
-        System.out.println("Enemy size is " + width + " " + height);
 
     }
 
@@ -46,9 +40,9 @@ public class Enemy extends Unit {
         if (length != 0 && length <= 4.0f * TILE_SIZE) { // To avoid division by zero
             directionX /= length;
             directionY /= length;
-            final float speed = 1.5f;
+            final float speed = 2;
 
-            move(directionX * speed, directionY * speed);
+            move((int) (directionX * speed), (int) (directionY * speed ));
         }
     }
 
@@ -61,7 +55,6 @@ public class Enemy extends Unit {
     }
 
     private BufferedImage getSubImageFromSpriteSheet(final int xCord, final int yCord) {
-
         return spriteSheet.getSubimage(xCord * width, yCord * height, width, height);
     }
 }

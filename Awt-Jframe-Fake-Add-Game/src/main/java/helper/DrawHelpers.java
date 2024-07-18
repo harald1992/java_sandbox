@@ -8,7 +8,7 @@ public class DrawHelpers {
 
     public static void drawTextWithShadow(Graphics g, String text, int x, int y) {
         // Set the font
-        g.setFont(new Font("Arial", Font.BOLD, 16));
+        g.setFont(new Font("Arial", Font.BOLD, 32));
 
         // Draw shadow
         g.setColor(Color.DARK_GRAY); // Shadow color

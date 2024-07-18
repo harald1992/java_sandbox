@@ -27,7 +27,8 @@ public class Tile extends GameObject {
 
     public void draw(Graphics2D g) {
 
-        g.drawImage(sprite, drawX(), drawY(), null);
+//        g.drawImage(sprite, drawX(), drawY(), null);
+        g.drawImage(sprite, drawX(), drawY(), width, height, null);
         //        g.setColor(Color.BLACK);
         //        g.drawRect(drawX(), drawY(), width, height);
     }

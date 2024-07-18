@@ -1,13 +1,12 @@
 package helper;
 
 import object.CheckpointRow;
-import object.Enemy;
+import object.unit.Enemy;
 import object.tile.Tile;
 import object.tile.TileEnum;
 
 import java.util.ArrayList;
 
-import static configuration.Configuration.DEFAULT_UNIT_SIZE;
 import static configuration.Configuration.ROAD_X_MAX;
 import static configuration.Configuration.ROAD_X_MIN;
 import static configuration.Configuration.TILE_SIZE;
@@ -79,7 +78,7 @@ public class LevelBuilder {
 
         for (int y = 0; y < Y_MAX - 15 * TILE_SIZE; y += 15 * TILE_SIZE) {
             final int randomX = getRandomNumberBetween(ROAD_X_MIN, ROAD_X_MAX);
-            enemies.add(new Enemy(randomX, y, DEFAULT_UNIT_SIZE, 2 * DEFAULT_UNIT_SIZE));
+            enemies.add(new Enemy(randomX, y));
 //            randomX = getRandomNumberBetween(ROAD_X_MIN, ROAD_X_MAX);
 
 //            enemies.add(new Enemy(randomX, y, DEFAULT_UNIT_SIZE, 2 * DEFAULT_UNIT_SIZE));
@@ -93,8 +92,7 @@ public class LevelBuilder {
 
         for (int y = 7 * TILE_SIZE; y < Y_MAX; y += 15 * TILE_SIZE) {
             final int width = ROAD_X_MAX - ROAD_X_MIN;
-            final int height = 2 * TILE_SIZE;
-            checkpointRows.add(new CheckpointRow(ROAD_X_MIN, y, width, height));
+            checkpointRows.add(new CheckpointRow(ROAD_X_MIN, y, width));
         }
 
         return checkpointRows;

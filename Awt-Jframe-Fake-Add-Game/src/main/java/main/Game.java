@@ -17,7 +17,7 @@ import static enums.GameState.setGameState;
 
 @Getter
 public class Game extends JFrame implements Runnable {
-    private final double FPS_SETTING = 120.0;
+    private final double FPS_SETTING = 60.0;
     private final double UPS_SETTING = 60.0;   // updates per second
 
     private int fps;
@@ -35,9 +35,9 @@ public class Game extends JFrame implements Runnable {
     private PlayingSceneKeyListener playingSceneKeyboardListener;
     private MenuSceneKeyListener menuSceneKeyboardListener;
 
-    private SceneMethods menuScene = new MenuScene(this);
-    private PlayingScene playingScene = new PlayingScene(this);
-    private SceneMethods settingsScene = new SettingsScene(this);
+    private final SceneMethods menuScene = new MenuScene(this);
+    private final PlayingScene playingScene = new PlayingScene(this);
+    private final SceneMethods settingsScene = new SettingsScene(this);
 
     private static final Game instance = new Game();
 
@@ -98,18 +98,18 @@ public class Game extends JFrame implements Runnable {
             // Render
             now = System.nanoTime();
 
-            // Render
-            if (now - lastFrame >= timePerFrame) {
-                repaint();
-                lastFrame = now;
-                frames++;
-            }
-
             // Update
             if (now - lastUpdate >= timePerUpdate) {
                 updateGame();
                 lastUpdate = now;
                 updates++;
+            }
+
+            // Render
+            if (now - lastFrame >= timePerFrame) {
+                repaint();
+                lastFrame = now;
+                frames++;
             }
 
             // Print FPS and UPS

@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import static configuration.Configuration.DEFAULT_UNIT_SIZE;
 import static configuration.Configuration.ROAD_WIDTH;
 
 import static configuration.Configuration.ROAD_X_MIN;
@@ -16,14 +17,14 @@ public class CheckpointRow extends GameObject {
 
     ArrayList<CheckpointBonus> checkpointBonuses = new ArrayList<>();
 
-    public CheckpointRow(final float x, final float y, final int width, final int height) {
-        super(x, y, width, height);
+    public CheckpointRow(final int x, final int y, final int width) {
+        super(x, y, width, DEFAULT_UNIT_SIZE);
 
         final int amountOfBonuses = getRandomNumberBetween(2, 3);
 
         for (int i = 0; i < amountOfBonuses; i++) {
             final Effect newEffect = getRandomEffect();
-            checkpointBonuses.add(new CheckpointBonus(ROAD_X_MIN + (float) (i * ROAD_WIDTH) / amountOfBonuses, y, ROAD_WIDTH / amountOfBonuses, height, newEffect.text(),
+            checkpointBonuses.add(new CheckpointBonus(ROAD_X_MIN + (i * ROAD_WIDTH) / amountOfBonuses, y, ROAD_WIDTH / amountOfBonuses, height, newEffect.text(),
                     newEffect.effect()));
         }
     }
