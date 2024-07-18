@@ -12,13 +12,13 @@ import static main.Camera.getCameraY;
 @Getter
 public abstract class GameObject {
 
-    protected int x, y;
+    protected float x, y;
     protected int width;
     protected int height;
     protected Rectangle2D boxCollider;
     protected boolean markedForDeletion = false;
 
-    public GameObject(final int x, final int y, final int width, final int height) {
+    public GameObject(final float x, final float y, final int width, final int height) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -27,12 +27,11 @@ public abstract class GameObject {
     }
 
     public int drawX() {
-       return (int) x - getCameraX();
+        return (int) (x - getCameraX());
     }
 
     public int drawY() {
-//        System.out.println(y);
-        return (int) y - getCameraY();
+        return (int) (y - getCameraY());
     }
 
     public abstract void update();

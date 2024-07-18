@@ -112,13 +112,13 @@ public class AnimationDictionary {
         for (final Map.Entry<String, int[][]> entry : animationCoordinatesMap.entrySet()) {
            final String key = entry.getKey();
            final int[][] value = entry.getValue();
-            System.out.println("Key: " + key + ", Value: " + Arrays.deepToString(value));
+//            System.out.println("Key: " + key + ", Value: " + Arrays.deepToString(value));
         }
     }
 
     public static int[][] getAnimationCoordinates(final AnimationStateEnum animationState) {
         final var value =  animationCoordinatesMap.get(animationState.getText());
-        System.out.println(Arrays.deepToString(value));
+//        System.out.println(Arrays.deepToString(value));
         return value;
     }
 

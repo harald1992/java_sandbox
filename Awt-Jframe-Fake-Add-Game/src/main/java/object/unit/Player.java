@@ -4,6 +4,7 @@ import enums.AnimationStateEnum;
 import lombok.Getter;
 import lombok.Setter;
 import object.GameObject;
+import object.Vector2D;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -36,6 +37,7 @@ public class Player extends Unit {
         super(x, y, DEFAULT_UNIT_SIZE, 2 * DEFAULT_UNIT_SIZE);
         setGlobalPlayer(this);
         setAmount(amount);
+        setCameraPosition(x - (GAME_WIDTH - 4 * DEFAULT_UNIT_SIZE) / 2, y - GAME_HEIGHT + 5 * DEFAULT_UNIT_SIZE);
 
         //        this.sprites = loadImagesFromFolder("/spritesheets/isometric_hero_basic");
         //        this.sprites = new ArrayList<>(this.sprites.stream().map(s -> getSubImageFromSpriteSheet(s, 0, 2)).toList());
@@ -58,37 +60,18 @@ public class Player extends Unit {
             dx += speed;
         }
 
-        if (dy < 0) {
-            if (dx > 0) {
-                playerMinions.forEach(minion -> minion.setCurrentAnimationCoordinates(AnimationStateEnum.WALK_TOP_RIGHT));
-            } else if (dx < 0) {
-                playerMinions.forEach(minion -> minion.setCurrentAnimationCoordinates(AnimationStateEnum.WALK_TOP_LEFT));
-            } else {
-                playerMinions.forEach(minion -> minion.setCurrentAnimationCoordinates(AnimationStateEnum.WALK_TOP));
-            }
+        if (dx != 0 || dy != 0) {
+            setAnimationBasedOnDirection(new Vector2D(dx, dy));
+            move(dx, dy);
+            setCameraPosition(x - (GAME_WIDTH - 4 * DEFAULT_UNIT_SIZE) / 2, y - GAME_HEIGHT + 5 * DEFAULT_UNIT_SIZE);
         }
-        if (dy > 0) {
-            if (dx > 0) {
-                playerMinions.forEach(minion -> minion.setCurrentAnimationCoordinates(AnimationStateEnum.WALK_BOTTOM_RIGHT));
-            } else if (dx < 0) {
-                playerMinions.forEach(minion -> minion.setCurrentAnimationCoordinates(AnimationStateEnum.WALK_BOTTOM_LEFT));
-            } else {
-                playerMinions.forEach(minion -> minion.setCurrentAnimationCoordinates(AnimationStateEnum.WALK_BOTTOM));
-            }
-        }
-
-        if (dy == 0) {
-            if (dx > 0) {
-                playerMinions.forEach(minion -> minion.setCurrentAnimationCoordinates(AnimationStateEnum.WALK_RIGHT));
-            } else if (dx < 0) {
-                playerMinions.forEach(minion -> minion.setCurrentAnimationCoordinates(AnimationStateEnum.WALK_LEFT));
-            }
-        }
-
-        move(dx, dy);
-
-        setCameraPosition(x - (GAME_WIDTH - 4 * DEFAULT_UNIT_SIZE) / 2, y - GAME_HEIGHT + 5 * DEFAULT_UNIT_SIZE);
         playerMinions.forEach(PlayerMinion::update);
+    }
+
+    @Override
+    public void setCurrentAnimationCoordinates(final AnimationStateEnum newAnimation) {
+        playerMinions.forEach(minion -> minion.setCurrentAnimationCoordinates(newAnimation));
+        super.setCurrentAnimationCoordinates(newAnimation);
     }
 
     @Override
@@ -97,7 +80,7 @@ public class Player extends Unit {
         playerMinions.stream().filter(minion -> minion.getY() > getCameraY() && minion.getY() < getCameraY() + GAME_HEIGHT - offsetToMakeSmoother)
                 .forEach(minion -> minion.draw(g));
 
-//        playerMinions.forEach(minion -> System.out.println(Arrays.deepToString(minion.getCurrentAnimationCoordinates())));
+        //        playerMinions.forEach(minion -> System.out.println(Arrays.deepToString(minion.getCurrentAnimationCoordinates())));
 
         drawTextInMiddleOfBox(g, new GameObject(x, y - DEFAULT_UNIT_SIZE / 2, DEFAULT_UNIT_SIZE, DEFAULT_UNIT_SIZE) {
             @Override
@@ -111,6 +94,13 @@ public class Player extends Unit {
 
         g.setColor(Color.YELLOW);
         g.drawRect(drawX(), drawY(), width, height);
+
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 16));
+        g.setColor(Color.WHITE);
+        g.drawString("Player", 16, 100);
+        g.drawString("Animation: " + getCurrentAnimation(), 16, 125);
+        g.drawString("Animation coordinates: " + Arrays.deepToString(this.currentAnimationCoordinates), 16, 150);
+        g.drawString("animationIndex: " + animationIndex, 16, 175);
     }
 
     public void setAmount(final int amount) {
@@ -130,7 +120,7 @@ public class Player extends Unit {
     }
 
     @Override
-    public void move(final int x, final int y) {
+    public void move(final float x, final float y) {
         super.move(x, y);
         for (final PlayerMinion playerMinion : playerMinions) {
             playerMinion.move(x, y);

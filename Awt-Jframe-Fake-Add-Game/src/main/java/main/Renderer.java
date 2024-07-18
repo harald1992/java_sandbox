@@ -44,8 +44,8 @@ public class Renderer {
 
 
     private void renderFps_Ups(Graphics g) {
-        drawTextWithShadow(g, "FPS: " + gameScreen.getGame().getFps(), 5, 25);
-        drawTextWithShadow(g, "UPS: " + gameScreen.getGame().getUps(), 5, 45);
+        drawTextWithShadow(g, "FPS: " + gameScreen.getGame().getFps(), 8, 32);
+        drawTextWithShadow(g, "UPS: " + gameScreen.getGame().getUps(), 8, 64);
 
     }
 

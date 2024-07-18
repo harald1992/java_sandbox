@@ -36,13 +36,13 @@ public class LoadSave {
         return null;
     }
 
-//    private static boolean isImageFile(final String imagePath) {
-//        final URL resource = LoadSave.class.getResource(imagePath);
-//        if (resource == null) {
-//            return false;
-//        }
-//        return true;
-//    }
+    //    private static boolean isImageFile(final String imagePath) {
+    //        final URL resource = LoadSave.class.getResource(imagePath);
+    //        if (resource == null) {
+    //            return false;
+    //        }
+    //        return true;
+    //    }
 
     private static ArrayList<String> listFilesUsingJavaIO(final String dir) {
         final URL resource = LoadSave.class.getResource(dir);
@@ -78,6 +78,18 @@ public class LoadSave {
         final int spriteHeight = 128 - 2 * padding;
         final int x = xCord * step + padding;
         final int y = yCord * step + padding;
+
+        return spriteSheet.getSubimage(x, y, spriteWidth, spriteHeight);
+    }
+
+    public static BufferedImage getSubImageFromSpriteSheet(final BufferedImage spriteSheet, final int xCord, final int yCord, final int padding, final int paddingTop)
+            throws RasterFormatException {
+        final int step = 128;
+
+        final int spriteWidth = 128 - 2 * padding;
+        final int spriteHeight = 128 - padding - paddingTop;
+        final int x = xCord * step + padding;
+        final int y = yCord * step + paddingTop;
 
         return spriteSheet.getSubimage(x, y, spriteWidth, spriteHeight);
     }

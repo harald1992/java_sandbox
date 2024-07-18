@@ -38,9 +38,10 @@ public class PlayerMinion extends Unit {
 
         spriteObjects.forEach(spriteSheet -> {
             try {
+//                System.out.println(currentAnimationCoordinates[animationIndex][0] +  currentAnimationCoordinates[animationIndex][1]);
                 final BufferedImage sprite = getSubImageFromSpriteSheet(spriteSheet, currentAnimationCoordinates[animationIndex][0], currentAnimationCoordinates[animationIndex][1], 32);
                 g.drawImage(sprite, drawX(), drawY(), width, height, null);
-            } catch (RasterFormatException e) {
+            } catch (final RasterFormatException e) {
                 errors.getAndIncrement();
             }
         });

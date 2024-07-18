@@ -57,31 +57,13 @@ public class LevelManager {
         enemyManager.draw(g);
         checkpointManager.draw(g);
         player.draw(g);
-        BufferedImage bg = loadFullImage("/BackgroundFade_medium.png");
 
-        drawBlackOverlayExceptCircle(g);
-        g.drawImage(bg, 0, 0, GAME_WIDTH, GAME_HEIGHT, null);
+        BufferedImage bg = loadFullImage("/BackgroundFade_medium.png");
+//        g.drawImage(bg, 0, 0, GAME_WIDTH, GAME_HEIGHT, null);
         //        g.setColor(Color.DARK_GRAY);
         //        g.drawRect(0,0, 100, 100);
     }
 
-    private void drawBlackOverlayExceptCircle(Graphics2D g) {
-//        g.setComposite(AlphaComposite.SrcOver.derive(0.5f)); // 0.0f for fully transparent
-//
-//        g.setColor(Color.BLACK);
-//        g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-//
-//        g.setComposite(AlphaComposite.SrcOver.derive(0.0f)); // 0.0f for fully transparent
-//       int radius = TILE_SIZE;
-//       int centerX = getCameraX() + GAME_WIDTH / 2;
-//       int centerY = getCameraY() + GAME_HEIGHT / 2;
-//
-//        Ellipse2D.Double circle = new Ellipse2D.Double(centerX - radius, centerY - radius, 2 * radius, 2 * radius);
-//        g.fill(circle);
-//
-//        g.setComposite(AlphaComposite.SrcOver.derive(1.0f));
 
-
-    }
 
 }

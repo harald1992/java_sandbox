@@ -2,9 +2,9 @@ package main;
 
 public class Camera {
 
-    private static int x, y;
+    private static float x, y;
 
-    public static void setCameraPosition(final int xPos, final int yPos) {
+    public static void setCameraPosition(final float xPos, final float yPos) {
         x = xPos;
         y = yPos;
 //        int intX = (int) Math.floor(xPos);
@@ -15,11 +15,11 @@ public class Camera {
 //        y = intY;
     }
 
-    public static int getCameraX() {
+    public static float getCameraX() {
         return  x;
     }
 
-    public static int getCameraY() {
+    public static float getCameraY() {
         return y;
     }
 }

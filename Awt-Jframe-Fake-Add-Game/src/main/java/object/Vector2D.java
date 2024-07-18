@@ -21,8 +21,16 @@ public class Vector2D {
         return (int) x;
     }
 
+    public float getXFloat() {
+        return  x;
+    }
+
     public int getY() {
         return (int) y;
+    }
+
+    public float getYFloat() {
+        return  y;
     }
 
     @Override
