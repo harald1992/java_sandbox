@@ -37,7 +37,7 @@ public class Enemy extends Unit {
         if (boxCollider.intersects(getPlayer().getBoxCollider())) {
             //            System.out.println("Unit collision");
             //
-            //            markedForDeletion = true;
+                        markedForDeletion = true;
         }
 
         final float length = (float) Math.sqrt(dx * dx + dy * dy);
@@ -47,7 +47,7 @@ public class Enemy extends Unit {
 
             final Vector2D movement = new Vector2D(dx, dy);
             movement.normalize();
-            System.out.println(movement);
+//            System.out.println(movement);
             move(movement.getXFloat() * speed, movement.getYFloat() * speed);
 
         }

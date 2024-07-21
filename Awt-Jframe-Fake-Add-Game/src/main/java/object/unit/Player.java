@@ -34,10 +34,10 @@ public class Player extends Unit {
     ArrayList<BufferedImage> sprites;
 
     public Player(final int x, final int y) {
-        super(x, y, DEFAULT_UNIT_SIZE, 2 * DEFAULT_UNIT_SIZE);
+        super(x, y, DEFAULT_UNIT_SIZE, DEFAULT_UNIT_SIZE);
         setGlobalPlayer(this);
         setAmount(amount);
-        setCameraPosition(x - (GAME_WIDTH - 4 * DEFAULT_UNIT_SIZE) / 2, y - GAME_HEIGHT + 5 * DEFAULT_UNIT_SIZE);
+        setCameraPosition(x - (float) (GAME_WIDTH - 4 * DEFAULT_UNIT_SIZE) / 2, y - GAME_HEIGHT + 5 * DEFAULT_UNIT_SIZE);
 
         //        this.sprites = loadImagesFromFolder("/spritesheets/isometric_hero_basic");
         //        this.sprites = new ArrayList<>(this.sprites.stream().map(s -> getSubImageFromSpriteSheet(s, 0, 2)).toList());
@@ -63,7 +63,7 @@ public class Player extends Unit {
         if (dx != 0 || dy != 0) {
             setAnimationBasedOnDirection(new Vector2D(dx, dy));
             move(dx, dy);
-            setCameraPosition(x - (GAME_WIDTH - 4 * DEFAULT_UNIT_SIZE) / 2, y - GAME_HEIGHT + 5 * DEFAULT_UNIT_SIZE);
+            setCameraPosition(x - (float) (GAME_WIDTH - 4 * DEFAULT_UNIT_SIZE) / 2, y - GAME_HEIGHT + 5 * DEFAULT_UNIT_SIZE);
         }
         playerMinions.forEach(PlayerMinion::update);
     }
@@ -82,7 +82,7 @@ public class Player extends Unit {
 
         //        playerMinions.forEach(minion -> System.out.println(Arrays.deepToString(minion.getCurrentAnimationCoordinates())));
 
-        drawTextInMiddleOfBox(g, new GameObject(x, y - DEFAULT_UNIT_SIZE / 2, DEFAULT_UNIT_SIZE, DEFAULT_UNIT_SIZE) {
+        drawTextInMiddleOfBox(g, new GameObject(x, y - (float) DEFAULT_UNIT_SIZE / 2, DEFAULT_UNIT_SIZE, DEFAULT_UNIT_SIZE) {
             @Override
             public void update() {
             }
@@ -104,19 +104,28 @@ public class Player extends Unit {
     }
 
     public void setAmount(final int amount) {
-        this.amount = amount;
-        if (amount < 4) {
-            width = amount * DEFAULT_UNIT_SIZE;
-            height = DEFAULT_UNIT_SIZE;
-        } else {
-            width = 4 * DEFAULT_UNIT_SIZE;
-            height = ((amount - 1) / 4 + 1) * DEFAULT_UNIT_SIZE;
-        }
-        final int initialColumns = Math.min(amount, 4);
 
-        final List<Point2D> positions = arrangeUnitsInFormation(new Point2D.Double(x + 0.5 * width, y + 0.5 * height), amount, initialColumns, 0, DEFAULT_UNIT_SIZE);
+//       final int columns = Math.min(Math.max(1, amount / 2), 8); // minimum 1 to 8 and mostly amount / 2
+        final int columns = 4;
+
+       final int rows = Math.max(1, (int) Math.ceil((double) amount / columns));
+
+        final int unitSize = DEFAULT_UNIT_SIZE;
+        height = unitSize;
+        System.out.println("columns = " + columns);
+        System.out.println("rows = " + rows);
+        this.amount = amount;
+        if (amount < columns) {
+            width = amount * unitSize;
+        } else {
+            width = columns * unitSize;
+        }
+        final int initialColumns = Math.min(amount, columns);
+        final float offset =  (float) (rows - 1) * unitSize / 2;
+        System.out.println("Offset: " + offset / unitSize);
+        final List<Point2D> positions = arrangeUnitsInFormation(new Point2D.Double(getCenter().getX(), getCenter().getY() + offset), amount, initialColumns, 0, DEFAULT_UNIT_SIZE);
         playerMinions =
-                new ArrayList<>(positions.stream().map(position -> new PlayerMinion((int) position.getX(), (int) position.getY(), DEFAULT_UNIT_SIZE, DEFAULT_UNIT_SIZE)).toList());
+                new ArrayList<>(positions.stream().map(position -> new PlayerMinion((int) position.getX(), (int) ((int)  position.getY()), DEFAULT_UNIT_SIZE, DEFAULT_UNIT_SIZE)).toList());
     }
 
     @Override
