@@ -129,6 +129,9 @@ public class Game extends JFrame implements Runnable {
         case MENU:
             menuScene.update();
             break;
+        case GAME_OVER:
+//            gameOverScene.update();
+            break;
         case PLAYING:
             playingScene.update();
             break;

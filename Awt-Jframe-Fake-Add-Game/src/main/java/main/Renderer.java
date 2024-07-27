@@ -31,6 +31,9 @@ public class Renderer {
         case PLAYING:
             renderPlayingScene(g);
             break;
+        case GAME_OVER:
+//            System.out.println("GAME OVER");
+            break;
         case SETTINGS:
             renderSettingsScene(g);
             break;

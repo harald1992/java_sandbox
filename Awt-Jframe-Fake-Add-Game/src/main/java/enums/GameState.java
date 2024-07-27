@@ -5,12 +5,13 @@ import static main.Game.getGameInstance;
 public enum GameState {
     MENU,
     PLAYING,
+    GAME_OVER,
     SETTINGS;
 
 
     public static GameState gameState = MENU;
 
-    public static void setGameState(GameState gameState) {
+    public static void setGameState(final GameState gameState) {
         getGameInstance().removeKeyListener(getGameInstance().getMenuSceneKeyboardListener());
         getGameInstance().removeKeyListener(getGameInstance().getPlayingSceneKeyboardListener());
 //        GAME.removeKeyListener(GAME.getSettingsSceneKeyboardListener();

@@ -7,6 +7,7 @@ import java.awt.event.KeyListener;
 import java.util.HashMap;
 
 import static enums.GameState.setGameState;
+import static helper.GlobalAccessor.getPlayer;
 
 public class PlayingSceneKeyListener implements KeyListener {
     private final Game game;
@@ -42,6 +43,10 @@ public class PlayingSceneKeyListener implements KeyListener {
         case KeyEvent.VK_DOWN:
         case KeyEvent.VK_S:
             KEYS_PRESSED.put("DOWN", true);
+            break;
+
+        case KeyEvent.VK_SPACE:
+            getPlayer().shoot();
             break;
 
         case KeyEvent.VK_ESCAPE:

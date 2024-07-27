@@ -79,7 +79,7 @@ public class LevelBuilder {
 
         for (int y = 0; y < Y_MAX - 15 * TILE_SIZE; y += 15 * TILE_SIZE) {
             final int randomX = getRandomNumberBetween(ROAD_X_MIN, ROAD_X_MAX);
-            enemies.add(new Enemy(randomX, y));
+//            enemies.add(new Enemy(randomX, y));
 //            randomX = getRandomNumberBetween(ROAD_X_MIN, ROAD_X_MAX);
 
         }

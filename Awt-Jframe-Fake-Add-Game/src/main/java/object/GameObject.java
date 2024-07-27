@@ -1,6 +1,8 @@
 package object;
 
 import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -10,6 +12,8 @@ import static main.Camera.getCameraX;
 import static main.Camera.getCameraY;
 
 @Getter
+@Setter
+@ToString
 public abstract class GameObject {
 
     protected float x, y;
@@ -37,4 +41,8 @@ public abstract class GameObject {
     public abstract void update();
 
     public abstract void draw(Graphics2D g);
+
+    public Vector2D getCenter() {
+        return new Vector2D(x + (float) width / 2, y + (float) height / 2);
+    }
 }

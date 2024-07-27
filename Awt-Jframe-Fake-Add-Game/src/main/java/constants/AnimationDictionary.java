@@ -1,6 +1,5 @@
 package constants;
 
-import enums.AnimationStateEnum;
 import object.Vector2D;
 
 import java.util.ArrayList;
@@ -86,14 +85,11 @@ public class AnimationDictionary {
         final int shootStartX = 28;
         final int shootEndX = 31;
 
+        for (final String action : allActions) {
+            for (int y = 0; y < allDirections.size(); y++) {
+                final String direction = allDirections.get(y);
 
-            for (int x = 0; x < allActions.size(); x++) {
-                final String action = allActions.get(x);
-
-                for (int y = 0; y < allDirections.size(); y++) {
-                    final String direction = allDirections.get(y);
-
-                    final int startX = switch (action) {
+                final int startX = switch (action) {
                     case "IDLE" -> idleStartX;
                     case "WALK" -> walkStartX;
                     case "SHOOT" -> shootStartX;
@@ -109,17 +105,21 @@ public class AnimationDictionary {
             }
         }
 
-        for (final Map.Entry<String, int[][]> entry : animationCoordinatesMap.entrySet()) {
-           final String key = entry.getKey();
-           final int[][] value = entry.getValue();
+//        for (final Map.Entry<String, int[][]> entry : animationCoordinatesMap.entrySet()) {
+//           final String key = entry.getKey();
+//           final int[][] value = entry.getValue();
 //            System.out.println("Key: " + key + ", Value: " + Arrays.deepToString(value));
-        }
+//        }
     }
 
-    public static int[][] getAnimationCoordinates(final AnimationStateEnum animationState) {
-        final var value =  animationCoordinatesMap.get(animationState.getText());
-//        System.out.println(Arrays.deepToString(value));
-        return value;
+//    public static int[][] getAnimationCoordinates(final AnimationStateEnum animationState) {
+//        final var value =  animationCoordinatesMap.get(animationState.getText());
+////        System.out.println(Arrays.deepToString(value));
+//        return value;
+//    }
+
+    public static int[][] getAnimationCoordinates(final String animationStateString) {
+      return animationCoordinatesMap.get(animationStateString);
     }
 
 }

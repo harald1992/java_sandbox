@@ -71,7 +71,17 @@ public class LoadSave {
 
     }
 
-    public static BufferedImage getSubImageFromSpriteSheet(final BufferedImage spriteSheet, final int xCord, final int yCord, final int padding) throws RasterFormatException {
+    public static BufferedImage getSubImageFromSpriteSheet64(final BufferedImage spriteSheet, final int xCord, final int yCord, final int padding) throws RasterFormatException {
+       final int spriteSize = 64;
+        final int spriteWidth = spriteSize - 2 * padding;
+        final int spriteHeight = spriteSize - 2 * padding;
+        final int x = xCord * spriteSize + padding;
+        final int y = yCord * spriteSize + padding;
+
+        return spriteSheet.getSubimage(x, y, spriteWidth, spriteHeight);
+    }
+
+        public static BufferedImage getSubImageFromSpriteSheet(final BufferedImage spriteSheet, final int xCord, final int yCord, final int padding) throws RasterFormatException {
         final int step = 128;
 
         final int spriteWidth = 128 - 2 * padding;

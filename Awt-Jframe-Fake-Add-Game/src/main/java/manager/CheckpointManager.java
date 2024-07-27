@@ -1,13 +1,14 @@
 package manager;
 
 import lombok.Setter;
+import object.BaseClass;
 import object.CheckpointRow;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 @Setter
-public class CheckpointManager {
+public class CheckpointManager implements BaseClass {
 
     private final LevelManager levelManager;
 
