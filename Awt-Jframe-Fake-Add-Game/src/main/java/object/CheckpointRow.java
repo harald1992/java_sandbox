@@ -10,6 +10,7 @@ import static configuration.Configuration.ROAD_WIDTH;
 import static configuration.Configuration.ROAD_X_MIN;
 import static constants.EffectDictionary.getRandomEffect;
 import static helper.CollisionHelper.calculateOverlapRatio;
+import static helper.GlobalAccessor.getNearestPlayerMinion;
 import static helper.GlobalAccessor.getPlayer;
 import static helper.HelperFunctions.getRandomNumberBetween;
 
@@ -18,7 +19,7 @@ public class CheckpointRow extends GameObject {
     ArrayList<CheckpointBonus> checkpointBonuses = new ArrayList<>();
 
     public CheckpointRow(final int x, final int y, final int width) {
-        super(x, y, width, DEFAULT_UNIT_SIZE);
+        super(x, y, width, DEFAULT_UNIT_SIZE, 1.0f);
 
         final int amountOfBonuses = getRandomNumberBetween(2, 3);
 
@@ -30,16 +31,21 @@ public class CheckpointRow extends GameObject {
     }
 
     public void update() {
-        if (boxCollider.intersects(getPlayer().getBoxCollider())) {
-            System.out.println("Checkpoint reached, determine overlap to know which bonus to get");
+       final var playerMinions = getPlayer().getPlayerMinions();
+       final int amount = Math.min(4, playerMinions.size());
+        for (int i = 0; i < amount; i++) {
+            if (getPlayer().getPlayerMinions().get(i).getBoxCollider().intersects(getBoxCollider())) {
 
-            final CheckpointBonus checkpointBonus = checkpointBonuses.stream().max(Comparator.comparingDouble(bonus -> calculateOverlapRatio(getPlayer(), bonus)))
-                    .orElse(checkpointBonuses.get(getRandomNumberBetween(0, checkpointBonuses.size() - 1)));
-            System.out.println(checkpointBonus.getText());
-            checkpointBonus.getBonus().accept(getPlayer().getAmount());
+                final CheckpointBonus checkpointBonus = checkpointBonuses.stream().max(Comparator.comparingDouble(bonus -> calculateOverlapRatio(getPlayer(), bonus)))
+                        .orElse(checkpointBonuses.get(getRandomNumberBetween(0, checkpointBonuses.size() - 1)));
+                checkpointBonus.getBonus().accept(getPlayer().getAmount());
 
-            markedForDeletion = true;
+                markedForDeletion = true;
+                break;
+            }
         }
+
+
 
     }
 

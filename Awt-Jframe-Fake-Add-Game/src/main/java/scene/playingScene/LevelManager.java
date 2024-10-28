@@ -1,45 +1,51 @@
-package manager;
+package scene.playingScene;
 
 import helper.LevelBuilder;
 import lombok.Getter;
 import object.BaseClass;
 import object.unit.Player;
-import scene.PlayingScene;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import static configuration.Configuration.DEFAULT_UNIT_SIZE;
+import static configuration.Configuration.GAME_HEIGHT;
+import static configuration.Configuration.GAME_WIDTH;
 import static configuration.Configuration.X_MAX;
 import static configuration.Configuration.Y_MAX;
 import static helper.LoadSave.loadFullImage;
-import static manager.EnemyManager.getEnemyManager;
-import static manager.ProjectileManager.getProjectileManager;
+import static scene.playingScene.EnemyManager.getEnemyManager;
+import static scene.playingScene.ProjectileManager.getProjectileManager;
 
 @Getter
 public class LevelManager implements BaseClass {
 
     private final PlayingScene playingScene;
 
-    private final TileManager tileManager;
-    private final CheckpointManager checkpointManager;
+    private  TileManager tileManager;
+    private  CheckpointManager checkpointManager;
 
     private final LevelBuilder levelBuilder = new LevelBuilder();
     private Player player;
 
     public LevelManager(final PlayingScene playingScene) {
         this.playingScene = playingScene;
-        tileManager = new TileManager(this);
-        checkpointManager = new CheckpointManager(this);
+        tileManager = new TileManager();
+        checkpointManager = new CheckpointManager();
         startNewLevel();
     }
 
+
+
     public void startNewLevel() {
-        tileManager.setTiles(levelBuilder.createTileMap());
+        tileManager = new TileManager();
+        EnemyManager.reset();
+        checkpointManager = new CheckpointManager();
+        ProjectileManager.reset();
         player = new Player(X_MAX / 2, Y_MAX - 5 * DEFAULT_UNIT_SIZE);
 
+        tileManager.setTiles(levelBuilder.createTileMap());
         getEnemyManager().setEnemies(levelBuilder.createEnemies());
-
         checkpointManager.setCheckpointRows(levelBuilder.createCheckpoints());
 
     }
@@ -61,7 +67,7 @@ public class LevelManager implements BaseClass {
         getProjectileManager().draw(g);
 
         BufferedImage bg = loadFullImage("/BackgroundFade_medium.png");
-//        g.drawImage(bg, 0, 0, GAME_WIDTH, GAME_HEIGHT, null);
+        g.drawImage(bg, 0, 0, GAME_WIDTH, GAME_HEIGHT, null);
         //        g.setColor(Color.DARK_GRAY);
         //        g.drawRect(0,0, 100, 100);
     }

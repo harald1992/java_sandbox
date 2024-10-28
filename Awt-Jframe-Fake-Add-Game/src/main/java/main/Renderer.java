@@ -5,6 +5,8 @@ import enums.GameState;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import static configuration.Configuration.GAME_HEIGHT;
+import static configuration.Configuration.GAME_WIDTH;
 import static helper.DrawHelpers.drawTextWithShadow;
 import static helper.LoadSave.loadFullImage;
 
@@ -33,6 +35,8 @@ public class Renderer {
             break;
         case GAME_OVER:
 //            System.out.println("GAME OVER");
+            renderPlayingScene(g);
+            renderGameOver(g);
             break;
         case SETTINGS:
             renderSettingsScene(g);
@@ -58,6 +62,15 @@ public class Renderer {
 
     private void renderPlayingScene(Graphics2D g) {
         gameScreen.getGame().getPlayingScene().render(g);
+    }
+
+    private void renderGameOver(Graphics2D g) {
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 50));
+        g.drawString("Game Over", GAME_WIDTH / 2 - 150, GAME_HEIGHT / 2 - 50);
+        g.setFont(new Font("Arial", Font.BOLD, 30));
+        g.drawString("Press Enter to go to main menu", GAME_WIDTH / 2 - 150, GAME_HEIGHT / 2 + 50);
+        ;
     }
 
     private void renderSettingsScene(Graphics2D g) {

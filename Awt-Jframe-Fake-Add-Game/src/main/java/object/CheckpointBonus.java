@@ -13,7 +13,7 @@ public class CheckpointBonus extends GameObject {
     private final Consumer<Integer> bonus;
 
     public CheckpointBonus(final int x, final int y, final int width, final int height, final String text, final Consumer<Integer> bonus) {
-        super(x, y, width, height);
+        super(x, y, width, height, 1.0f);
         this.text = text;
         this.bonus = bonus;
     }

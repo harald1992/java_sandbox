@@ -9,7 +9,7 @@ import static configuration.Configuration.GAME_WIDTH;
 
 public class MenuScene extends Scene implements SceneMethods {
 
-    public MenuScene(Game game) {
+    public MenuScene(final Game game) {
         super(game);
     }
 

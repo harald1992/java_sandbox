@@ -1,8 +1,9 @@
-package scene;
+package scene.playingScene;
 
 import lombok.Getter;
 import main.Game;
-import manager.LevelManager;
+import scene.Scene;
+import scene.SceneMethods;
 
 import java.awt.*;
 

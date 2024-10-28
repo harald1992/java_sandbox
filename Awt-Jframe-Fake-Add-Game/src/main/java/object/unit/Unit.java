@@ -12,7 +12,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import static manager.ProjectileManager.getProjectileManager;
+import static scene.playingScene.ProjectileManager.getProjectileManager;
 
 @Getter
 @Setter
@@ -23,7 +23,8 @@ public abstract class Unit extends GameObject {
     private final boolean isPlayerTeam;
 
     public Unit(final int x, final int y, final int width, final int height, final ArrayList<BufferedImage> spriteSheets, final boolean isPlayerTeam) {
-        super(x, y, width, height);
+        super(x, y, width, height, 0.5f, 1.0f);
+
         this.isPlayerTeam = isPlayerTeam;
         this.animationAndSpriteManager = new AnimationAndSpriteManager(this, spriteSheets);
     }
@@ -34,20 +35,18 @@ public abstract class Unit extends GameObject {
 
     @Override
     public void draw(final Graphics2D g) {
-        g.setColor(Color.WHITE);
-        g.drawRect(drawX(), drawY(), width, height);
         animationAndSpriteManager.draw(g);
+        super.draw(g);
     }
 
     public void faceTowards(final float x, final float y) {
         getAnimationAndSpriteManager().setDirection(new Vector2D(x, - y));
-
     }
 
     public void move(final float x, final float y) {
         this.x += x;
         this.y += y;
-        this.boxCollider.setRect(this.x, this.y, width, height);
+        updateBoxCollider();
 
         if (x != 0 || y != 0) {
             getAnimationAndSpriteManager().setAnimation(ActionStateEnum.WALK);

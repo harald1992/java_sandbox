@@ -102,4 +102,6 @@ class MathHelpersTest {
         final float expected = 104.879f;
         assertEquals(expected, convertVector2DToAngleDegrees(vector), DELTA);
     }
+
+
 }

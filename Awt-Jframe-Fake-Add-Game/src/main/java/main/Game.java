@@ -4,7 +4,7 @@ import enums.GameState;
 import lombok.AccessLevel;
 import lombok.Getter;
 import scene.MenuScene;
-import scene.PlayingScene;
+import scene.playingScene.PlayingScene;
 import scene.SceneMethods;
 import scene.SettingsScene;
 
@@ -34,12 +34,14 @@ public class Game extends JFrame implements Runnable {
     private MouseListener mouseListener;
     private PlayingSceneKeyListener playingSceneKeyboardListener;
     private MenuSceneKeyListener menuSceneKeyboardListener;
+    private GameOverKeyListener gameOverSceneKeyboardListener;
 
     private final SceneMethods menuScene = new MenuScene(this);
-    private final PlayingScene playingScene = new PlayingScene(this);
+    private PlayingScene playingScene = new PlayingScene(this);
     private final SceneMethods settingsScene = new SettingsScene(this);
 
     private static final Game instance = new Game();
+    private boolean isDebugMode = false;
 
     private Game() {
         setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -68,12 +70,23 @@ public class Game extends JFrame implements Runnable {
         return instance;
     }
 
+    public void toggleDebugMode() {
+        isDebugMode = !isDebugMode;
+    }
+
     public static void initialize() {
         instance.mouseListener = new MouseListener();
         instance.playingSceneKeyboardListener = new PlayingSceneKeyListener(instance);
         instance.menuSceneKeyboardListener = new MenuSceneKeyListener(instance);
+        instance.gameOverSceneKeyboardListener = new GameOverKeyListener();
+
         setGameState(GameState.PLAYING);
         instance.requestFocus(); // make sure focus is on the game JFrame
+    }
+
+    public void startNewGame(){
+      this.playingScene = new PlayingScene(getGameInstance());
+
     }
 
     public void start() {

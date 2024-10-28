@@ -1,5 +1,6 @@
 package helper;
 
+import enums.EnemyEnum;
 import object.CheckpointRow;
 import object.unit.Enemy;
 import object.tile.Tile;
@@ -13,6 +14,8 @@ import static configuration.Configuration.ROAD_X_MIN;
 import static configuration.Configuration.TILE_SIZE;
 import static configuration.Configuration.X_MAX;
 import static configuration.Configuration.Y_MAX;
+import static constants.EnemyDictionary.enemyDictionary;
+import static constants.EnemyDictionary.getEnemyStats;
 import static helper.HelperFunctions.getRandomNumberBetween;
 
 public class LevelBuilder {
@@ -79,11 +82,9 @@ public class LevelBuilder {
 
         for (int y = 0; y < Y_MAX - 15 * TILE_SIZE; y += 15 * TILE_SIZE) {
             final int randomX = getRandomNumberBetween(ROAD_X_MIN, ROAD_X_MAX);
-//            enemies.add(new Enemy(randomX, y));
-//            randomX = getRandomNumberBetween(ROAD_X_MIN, ROAD_X_MAX);
-
+            enemies.add(new Enemy(getEnemyStats(EnemyEnum.GOBLIN), randomX, y));
         }
-        enemies.add(new Enemy(ROAD_X_MIN, Y_MAX - DEFAULT_UNIT_SIZE));
+        enemies.add(new Enemy(getEnemyStats(EnemyEnum.MINOTAUR), ROAD_X_MIN, Y_MAX - DEFAULT_UNIT_SIZE));
 
         return enemies;
     }
@@ -91,7 +92,7 @@ public class LevelBuilder {
     public ArrayList<CheckpointRow> createCheckpoints() {
         final ArrayList<CheckpointRow> checkpointRows = new ArrayList<>();
 
-        for (int y = 7 * TILE_SIZE; y < Y_MAX; y += 15 * TILE_SIZE) {
+        for (int y = 7 * TILE_SIZE; y < Y_MAX - 10 * TILE_SIZE; y += 15 * TILE_SIZE) {
             final int width = ROAD_X_MAX - ROAD_X_MIN;
             checkpointRows.add(new CheckpointRow(ROAD_X_MIN, y, width));
         }

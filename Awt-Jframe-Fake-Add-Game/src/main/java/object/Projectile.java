@@ -5,10 +5,9 @@ import java.awt.image.BufferedImage;
 
 import static configuration.Configuration.DEFAULT_UNIT_SIZE;
 import static helper.GlobalAccessor.getNearestPlayerMinion;
-import static helper.GlobalAccessor.getPlayer;
 import static helper.LoadSave.getSubImageFromSpriteSheet64;
 import static helper.LoadSave.loadFullImage;
-import static manager.EnemyManager.getEnemyManager;
+import static scene.playingScene.EnemyManager.getEnemyManager;
 
 public class Projectile extends GameObject {
     private final boolean isPlayerTeam;
@@ -18,8 +17,10 @@ public class Projectile extends GameObject {
     BufferedImage spriteSheet;
     BufferedImage sprite;
 
+    private final int speed = 5;
+
     public Projectile(final int x, final int y, final Vector2D direction, final boolean isPlayerTeam) {
-        super(x, y, DEFAULT_UNIT_SIZE, DEFAULT_UNIT_SIZE);
+        super(x, y, DEFAULT_UNIT_SIZE, DEFAULT_UNIT_SIZE, 0.5f);
         this.isPlayerTeam = isPlayerTeam;
         this.direction = direction.normalized();
         spriteSheet = loadFullImage("/art_src/spells/arrows.png");
@@ -33,21 +34,23 @@ public class Projectile extends GameObject {
 
     @Override
     public void update() {
-        x += direction.getXFloat();
-        y += direction.getYFloat();
-        this.boxCollider.setRect(this.x, this.y, width, height);
+        x += direction.getXFloat() * speed;
+        y += direction.getYFloat() * speed;
+        updateBoxCollider();
+//        this.boxCollider.setRect(this.x, this.y, width, height);
 
         if (isPlayerTeam) {
             getEnemyManager().getEnemies().forEach(enemy -> {
                 if (boxCollider.intersects(enemy.getBoxCollider())) {
                                     System.out.println("Projectile collision");
                                     enemy.setMarkedForDeletion(true);
-                                    markedForDeletion = true;
+
+                    markedForDeletion = true;
                 }
             });
         } else if (boxCollider.intersects(getNearestPlayerMinion(this).getBoxCollider())) {
             System.out.println("Projectile collision");
-            getNearestPlayerMinion(this).setMarkedForDeletion(true);
+            getNearestPlayerMinion(this).takeDamage(1);
             markedForDeletion = true;
         }
 
@@ -56,8 +59,7 @@ public class Projectile extends GameObject {
     @Override
     public void draw(final Graphics2D g) {
         g.drawImage(sprite, drawX(), drawY(), width, height, null);
-        g.setColor(Color.WHITE);
-        g.drawRect(drawX(), drawY(), width, height);
+        super.draw(g);
     }
 
     public static double vectorToRadians(final Vector2D vector) {
@@ -65,7 +67,6 @@ public class Projectile extends GameObject {
     }
 
     public static BufferedImage rotate(BufferedImage bimg, double angle) {
-
         int w = bimg.getWidth();
         int h = bimg.getHeight();
 

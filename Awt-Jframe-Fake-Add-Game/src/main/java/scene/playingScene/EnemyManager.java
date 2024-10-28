@@ -1,4 +1,4 @@
-package manager;
+package scene.playingScene;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,20 +11,25 @@ import java.util.ArrayList;
 
 @Getter
 @Setter
-public class EnemyManager  implements BaseClass {
+public class EnemyManager implements BaseClass {
 
     private ArrayList<Enemy> enemies;
 
-    private static final EnemyManager instance = new EnemyManager();
+    private static EnemyManager instance = new EnemyManager();
 
-    public EnemyManager() {
-
-    }
+    public EnemyManager() {}
 
     public static EnemyManager getEnemyManager() {
         return instance;
     }
 
+    public static void reset() {
+        instance = new EnemyManager();
+    }
+
+    public void setEnemies(final ArrayList<Enemy> enemies) {
+        this.enemies = enemies;
+    }
 
     public void update() {
         if ( enemies.stream().anyMatch(GameObject::isMarkedForDeletion) ) {

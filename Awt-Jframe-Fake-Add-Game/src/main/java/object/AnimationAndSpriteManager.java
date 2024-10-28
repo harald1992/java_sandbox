@@ -49,6 +49,10 @@ public class AnimationAndSpriteManager {
                     animationCycleComplete = true; // Indicate that the animation cycle has completed
 
                     System.out.println("SHOOTING DONE");
+                } else if (actionState == ActionStateEnum.ATTACK) {
+                    setAnimation(ActionStateEnum.IDLE);
+                    animationCycleComplete = true; // Indicate that the animation cycle has completed
+
                 }
             }
             timer = 0;

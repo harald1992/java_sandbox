@@ -1,4 +1,4 @@
-package manager;
+package scene.playingScene;
 
 import object.BaseClass;
 import object.GameObject;
@@ -10,9 +10,13 @@ import java.util.ArrayList;
 public class ProjectileManager implements BaseClass {
     ArrayList<Projectile> projectiles = new ArrayList<>();
 
-    private static final ProjectileManager instance = new ProjectileManager();
+    private static ProjectileManager instance = new ProjectileManager();
 
     public ProjectileManager() {
+    }
+
+    public static void reset() {
+        instance = new ProjectileManager();
     }
 
     public static ProjectileManager getProjectileManager() {

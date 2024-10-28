@@ -17,9 +17,10 @@ public class EffectDictionary {
         effects.add(new Effect("+1", amount -> getPlayer().setAmount(amount + 1)));
         effects.add(new Effect("+3", amount -> getPlayer().setAmount(amount + 3)));
         effects.add(new Effect("+5", amount -> getPlayer().setAmount(amount + 5)));
+        effects.add(new Effect("-5", amount -> getPlayer().setAmount(Math.max(amount - 5, 1))));
 
         effects.add(new Effect("*2", amount -> getPlayer().setAmount( 2 * amount)));
-        effects.add(new Effect("*5", amount -> getPlayer().setAmount( 5 * amount)));
+        effects.add(new Effect("*3", amount -> getPlayer().setAmount( 3 * amount)));
 
     }
 

@@ -14,7 +14,7 @@ public enum GameState {
     public static void setGameState(final GameState gameState) {
         getGameInstance().removeKeyListener(getGameInstance().getMenuSceneKeyboardListener());
         getGameInstance().removeKeyListener(getGameInstance().getPlayingSceneKeyboardListener());
-//        GAME.removeKeyListener(GAME.getSettingsSceneKeyboardListener();
+        getGameInstance().removeKeyListener(getGameInstance().getGameOverSceneKeyboardListener());
 
         GameState.gameState = gameState;
 
@@ -24,6 +24,9 @@ public enum GameState {
                 break;
             case PLAYING:
                 getGameInstance().addKeyListener(getGameInstance().getPlayingSceneKeyboardListener());
+                break;
+            case GAME_OVER:
+                getGameInstance().addKeyListener(getGameInstance().getGameOverSceneKeyboardListener());
                 break;
 
 

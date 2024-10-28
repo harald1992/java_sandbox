@@ -33,6 +33,7 @@ public class AttackState extends State {
             if (enemy.isCanShoot()) {
                 enemy.spawnProjectile();
             } else {
+                System.out.println("should give damage");
                 getNearestPlayerMinion(enemy).takeDamage(1);
             }
             enemy.setState(new ChaseState(enemy));

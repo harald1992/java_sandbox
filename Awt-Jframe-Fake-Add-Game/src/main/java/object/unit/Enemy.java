@@ -1,30 +1,27 @@
 package object.unit;
 
+import constants.EnemyStats;
 import lombok.Getter;
 import object.Vector2D;
 import state.PatrolState;
 import state.State;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static configuration.Configuration.DEFAULT_UNIT_SIZE;
 import static configuration.Configuration.TILE_SIZE;
 import static helper.GlobalAccessor.getNearestPlayerMinion;
-import static helper.GlobalAccessor.getPlayer;
-import static helper.LoadSave.loadFullImage;
 
 @Getter
 public class Enemy extends Unit {
     final float speed = 1.0f;
-    final float attackRange = 3 * TILE_SIZE;
+    final float attackRange;
     final float chaseRange = 8 * TILE_SIZE;
-    final boolean canShoot = true;
+    final boolean canShoot;
 
     private State currentState;
 
-    public Enemy(final int x, final int y) {
-        super(x, y, DEFAULT_UNIT_SIZE, DEFAULT_UNIT_SIZE, new ArrayList<>(List.of(loadFullImage("/art_src/characters/goblin/goblin.png"))), false);
+    public Enemy(final EnemyStats enemyStats, final int x, final int y) {
+        super(x, y, enemyStats.getWidth(), enemyStats.getHeight(), enemyStats.getSprites(), false);
+        this.attackRange = enemyStats.getAttackRange();
+        this.canShoot = enemyStats.isShooter();
 
         setState(new PatrolState(this));
     }
@@ -44,8 +41,9 @@ public class Enemy extends Unit {
     }
 
     public float facePlayerAndReturnDistance() {
-        final float dx = getPlayer().getCenter().getX() - this.getCenter().getX();
-        final float dy = getPlayer().getCenter().getY() - this.getCenter().getY();
+        final PlayerMinion nearestPlayerMinion = getNearestPlayerMinion(this);
+        final float dx = nearestPlayerMinion.getCenter().getX() - this.getCenter().getX();
+        final float dy = nearestPlayerMinion.getCenter().getY() - this.getCenter().getY();
         final Vector2D direction = new Vector2D(dx, dy).normalized();
 
         this.faceTowards(direction.getXFloat(), direction.getYFloat());

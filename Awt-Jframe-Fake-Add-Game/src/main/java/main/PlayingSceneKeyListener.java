@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import static enums.GameState.setGameState;
 import static helper.GlobalAccessor.getPlayer;
+import static main.Game.getGameInstance;
 
 public class PlayingSceneKeyListener implements KeyListener {
     private final Game game;
@@ -51,6 +52,10 @@ public class PlayingSceneKeyListener implements KeyListener {
 
         case KeyEvent.VK_ESCAPE:
             setGameState(GameState.MENU);
+            break;
+
+        case KeyEvent.VK_P:
+            getGameInstance().toggleDebugMode();
             break;
         }
     }
