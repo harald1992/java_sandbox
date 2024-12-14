@@ -1,0 +1,11 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=modulith'
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_PASSWORD=root'
+    ports:
+      - '5433:5432'
+
+# psql -U postgres -d modulith -c "SELECT * FROM test_table;"

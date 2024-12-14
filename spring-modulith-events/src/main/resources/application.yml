@@ -1,0 +1,32 @@
+spring:
+  application.name: spring-modulith-events
+  docker:
+    compose:
+      lifecycle-management: start_only
+  modulith:
+    events:
+      jdbc:
+        schema-initialization:
+          enabled: true
+      republish-outstanding-events-on-restart: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5433/modulith
+    username: postgres
+    password: root
+  threads:
+    virtual:
+      enabled: true
+
+logging:
+  level:
+    org.springframework:
+      modulith: debug
+
+
+
+
