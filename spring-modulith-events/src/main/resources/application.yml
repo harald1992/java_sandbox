@@ -7,12 +7,24 @@ spring:
     events:
       jdbc:
         schema-initialization:
-          enabled: true
-      republish-outstanding-events-on-restart: true
+          enabled: true # Creates below type
+#          CREATE TABLE IF NOT EXISTS event_publication
+#          (
+#          id               UUID NOT NULL,
+#          listener_id      TEXT NOT NULL,
+#          event_type       TEXT NOT NULL,
+#          serialized_event TEXT NOT NULL,  # JSON implementation of: source, custom pojo's you added and timestamp. Maybe add an id here?
+#          publication_date TIMESTAMP WITH TIME ZONE NOT NULL,
+#          completion_date  TIMESTAMP WITH TIME ZONE,
+#          PRIMARY KEY (id)
+#          );
+#          CREATE INDEX IF NOT EXISTS event_publication_serialized_event_hash_idx ON event_publication USING hash(serialized_event);
+#          CREATE INDEX IF NOT EXISTS event_publication_by_completion_date_idx ON event_publication (completion_date);
+      republish-outstanding-events-on-restart: false
+      completion-mode: update #-> update means completed events can still be seen CompletedEventPublications interface, This will clutter up the events database, so if you want to clean it up you can do the delete or archive property/
   jpa:
     hibernate:
       ddl-auto: update
-
     show-sql: true
   datasource:
     url: jdbc:postgresql://localhost:5433/modulith

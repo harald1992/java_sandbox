@@ -1,10 +1,9 @@
 package com.harald.spring_modulith_events.listener;
 
+import org.springframework.context.event.EventListener;
+import org.springframework.modulith.events.ApplicationModuleListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.event.TransactionalEventListener;
 
 import com.harald.spring_modulith_events.dto.UserDetailsDto;
 import com.harald.spring_modulith_events.entity.UserDetails;
@@ -12,7 +11,7 @@ import com.harald.spring_modulith_events.event.UpdateContactDetailsEvent;
 import com.harald.spring_modulith_events.repository.UserDetailsRepository;
 
 @Component
-public class UpdateContactDetailsEventListener {
+class UpdateContactDetailsEventListener {
 
 	private final UserDetailsRepository userDetailsRepository;
 
@@ -20,16 +19,15 @@ public class UpdateContactDetailsEventListener {
 		this.userDetailsRepository = userDetailsRepository;
 	}
 
-	@TransactionalEventListener
-	@Transactional(propagation = Propagation.REQUIRES_NEW)  // needed to do DB work in a new transaction
-	@Async
-	public void updateContactDetails(UpdateContactDetailsEvent event) throws InterruptedException {
-		System.out.println("Received event: " + event.toString());
+@ApplicationModuleListener
+public void updateContactDetails(UpdateContactDetailsEvent event) throws InterruptedException {
+	System.out.println("updateContactDetails contact details for user: " + event.getUserDetails().name());
 		UserDetailsDto user = event.getUserDetails();
 		UserDetails userDetails = new UserDetails(null, user.name(), user.email(), user.phone());
 
-		Thread.sleep(200);
+		Thread.sleep(2000);
+//		throw new RuntimeException("Error in UpdateContactDetailsEventListener");
 		userDetailsRepository.save(userDetails);
-		System.out.println("Contact details updated for user: " + user.name());
+		System.out.println("Finished: Contact details updated for user: " + user.name());
 	}
 }

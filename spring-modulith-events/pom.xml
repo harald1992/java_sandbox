@@ -49,6 +49,17 @@
 			<artifactId>spring-modulith-starter-jdbc</artifactId>
 		</dependency>
 
+	<!--		Events api to perform housekeeping of events: Purging completed events, retrying failed events etc -->
+		<dependency>
+			<groupId>org.springframework.modulith</groupId>
+			<artifactId>spring-modulith-events-api</artifactId>
+		</dependency>
+
+		<!--	Evt toevoegen:
+		modulith-actuator,
+		modulith-docs
+		-->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-docker-compose</artifactId>
@@ -75,7 +86,7 @@
 		<dependencies>
 			<dependency>
 				<groupId>org.springframework.modulith</groupId>
-				<artifactId>spring-modulith-bom</artifactId>
+				<artifactId>spring-modulith-bom</artifactId>	<!-- Bill of materials? -->
 				<version>${spring-modulith.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
